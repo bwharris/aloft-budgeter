@@ -1,6 +1,5 @@
 package com.example.aloftbudgeter;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +14,9 @@ class Aloft {
         return intent;
     }
 
-    public static Intent getMainActivityIntent(Context context) {
+    public static Intent getMainActivityIntent(Context context, Account account) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(context.getString(R.string.extra_account), account);
 
         return intent;
     }
@@ -43,18 +43,20 @@ class Aloft {
         return calendar;
     }
 
-    static boolean hasAccount(Bundle extras, Context context) {
+    static boolean hasAccount(Bundle extras, String name) {
         return extras != null &&
-                extras.get(context.getString(R.string.extra_account)) != null &&
-                extras.get(context.getString(R.string.extra_account)).getClass() == Account.class;
+                extras.get(name) != null &&
+                extras.get(name).getClass() == Account.class;
     }
 
-    static Calendar tryGetWeekStart(
-            Bundle extras,
-            Context context,
-            Calendar defaultSeedDate)
-    {
-        return hasAccount(extras, context) ?
+    static Account tryGetAccount(Bundle extras, Context context, Account defaultValue) {
+        return hasAccount(extras, context.getString(R.string.extra_account)) ?
+                (Account)extras.get(context.getString(R.string.extra_account))
+                : defaultValue;
+    }
+
+    static Calendar tryGetWeekStart(Bundle extras, Context context, Calendar defaultSeedDate) {
+        return hasAccount(extras, context.getString(R.string.extra_account)) ?
                 ((Account)extras.get(context.getString(R.string.extra_account))).getWeekStart()
                 : getStartOfWeek(defaultSeedDate);
     }

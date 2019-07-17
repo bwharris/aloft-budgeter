@@ -1,16 +1,30 @@
 package com.example.aloftbudgeter;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 
-class Account {
+class Account implements Serializable {
 
-    private Calendar weekStart;
+    private Calendar weekStart = Calendar.getInstance();
+    private String name;
+    private ArrayList<Category> categories;
 
-    public Calendar getWeekStart() {
-        return weekStart;
+    Account(Calendar seedDate, String name, ArrayList<Category> categories) {
+        setWeekStart(seedDate);
+        setName(name);
+        setCategories(categories);
     }
 
-    public void setWeekStart(Calendar seedDate) {
-        this.weekStart = Aloft.getStartOfWeek(seedDate);
-    }
+    private void setWeekStart(Calendar seedDate) { this.weekStart = Aloft.getStartOfWeek(seedDate); }
+
+    Calendar getWeekStart() { return weekStart; }
+
+    private void setName(String name) { this.name = name; }
+
+    String getName() { return name; }
+
+    private void setCategories(ArrayList<Category> categories) { this.categories = categories; }
+
+    ArrayList<Category> getCategories() { return categories; }
 }

@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,11 +18,26 @@ public class MainActivity extends AppCompatActivity {
         Calendar weekStart = Aloft.tryGetWeekStart(
                 getIntent().getExtras(),
                 getApplicationContext(),
-                Calendar.getInstance()
+                Calendar.getInstance());
+
+        final Account account = Aloft.tryGetAccount(
+                getIntent().getExtras(),
+                getApplicationContext(),
+                null
             );
 
-        startActivity(Aloft.getAccountActivityIntent(getApplicationContext()));
+        if(account == null){
+            startActivity(Aloft.getAccountActivityIntent(getApplicationContext()));
+            finish();
+        }
 
         ((TextView)findViewById(R.id.main_date)).setText(Aloft.getPrintableDate(weekStart));
+
+        Toast toast = Toast.makeText(
+                getApplicationContext(),
+                "Account name: " + account.getName(),
+                Toast.LENGTH_LONG
+            );
+        toast.show();
     }
 }
