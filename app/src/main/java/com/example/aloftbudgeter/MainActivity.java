@@ -33,11 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.main_date)).setText(Aloft.getPrintableDate(weekStart));
 
-        Toast toast = Toast.makeText(
-                getApplicationContext(),
-                "Account name: " + account.getName(),
-                Toast.LENGTH_LONG
-            );
-        toast.show();
+//        Toast toast = Toast.makeText(
+//                getApplicationContext(),
+//                "Account name: " + account.getName(),
+//                Toast.LENGTH_LONG
+//            );
+//        toast.show();
     }
+
+    @Override
+    public void onBackPressed(){}
 }
