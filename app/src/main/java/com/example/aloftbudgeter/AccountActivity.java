@@ -3,6 +3,7 @@ package com.example.aloftbudgeter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -12,6 +13,11 @@ import java.util.Calendar;
 import java.util.List;
 
 public class AccountActivity extends AppCompatActivity {
+    Integer[] reqInputIDs = new Integer[] {
+            R.id.account_name,
+            R.id.account_start,
+            R.id.account_cash
+        };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +26,9 @@ public class AccountActivity extends AppCompatActivity {
 
         //Account account = null;
         List<Category> listItems = new ArrayList<>();
-        //List<Integer> categoryIndexes = new ArrayList<>();
+        for(String name: getApplicationContext().getString(R.string.reqListItems).split(";")){
+            listItems.add(new Category(name));
+        }
 
         displayCategoryList(listItems);
 
@@ -35,14 +43,25 @@ public class AccountActivity extends AppCompatActivity {
         findViewById(R.id.account_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Account account = new Account(
-                        Calendar.getInstance(),
-                        ((EditText)findViewById(R.id.account_name)).getText().toString(),
-                        new ArrayList<Category>()
-                    );
+                List<Integer> viewsNeedingInput = new ArrayList<>();
 
-                startActivity(Aloft.getMainActivityIntent(getApplicationContext(), account));
-                finish();
+                for(Integer i: reqInputIDs){
+                    if(TextUtils.isEmpty(((EditText)findViewById(i)).getText().toString())){
+                        ((EditText)findViewById(i)).setError("A value is needed");
+                        viewsNeedingInput.add(i);
+                    }
+                }
+
+                if(viewsNeedingInput.size() == 0) {
+                    Account account = new Account(
+                            Calendar.getInstance(),
+                            ((EditText) findViewById(R.id.account_name)).getText().toString(),
+                            new ArrayList<Category>()
+                        );
+
+                    startActivity(Aloft.getMainActivityIntent(getApplicationContext(), account));
+                    finish();
+                }
             }
         });
     }
@@ -58,15 +77,7 @@ public class AccountActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        for(Integer i : new Integer[]{
-                R.id.account_name,
-                R.id.account_start,
-                R.id.account_income,
-                R.id.account_cash
-            }
-        ){
-            ((EditText)findViewById(i)).setText("");
-        }
+        for(Integer i : reqInputIDs) { ((EditText)findViewById(i)).setText(""); }
     }
 
     @Override

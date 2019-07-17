@@ -2,4 +2,5 @@
     <string name="app_name">Aloft Budgeter</string>
     <string name="default_string">--</string>
     <string name="extra_account">account</string>
+    <string name="reqListItems">Income;Contingency;Spendable Contingency</string>
 </resources>

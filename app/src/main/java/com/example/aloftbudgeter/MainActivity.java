@@ -29,16 +29,20 @@ public class MainActivity extends AppCompatActivity {
         if(account == null){
             startActivity(Aloft.getAccountActivityIntent(getApplicationContext()));
             finish();
+            return;
         }
 
         ((TextView)findViewById(R.id.main_date)).setText(Aloft.getPrintableDate(weekStart));
 
-//        Toast toast = Toast.makeText(
-//                getApplicationContext(),
-//                "Account name: " + account.getName(),
-//                Toast.LENGTH_LONG
-//            );
-//        toast.show();
+        Toast toast = Toast.makeText(
+                getApplicationContext(),
+                String.format(
+                        "Name: %s \nStarting Balance:",
+                        account.getName()
+                    ),
+                Toast.LENGTH_LONG
+            );
+        toast.show();
     }
 
     @Override

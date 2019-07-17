@@ -35,7 +35,7 @@
         android:id="@+id/account_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Starting Balance"
         android:inputType="numberSigned"
@@ -45,24 +45,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/account_name" />
 
-    <EditText
-        android:id="@+id/account_income"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Weekly Income"
-        android:inputType="numberSigned"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_start" />
+    <!--<EditText-->
+        <!--android:id="@+id/account_income"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:ems="10"-->
+        <!--android:hint="Weekly Income"-->
+        <!--android:inputType="numberSigned"-->
+        <!--android:textAlignment="center"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/account_start" />-->
 
     <EditText
         android:id="@+id/account_cash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Weekly Spending Cash"
         android:inputType="numberSigned"
@@ -70,13 +70,13 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_income" />
+        app:layout_constraintTop_toBottomOf="@+id/account_start" />
 
     <ListView
         android:id="@+id/account_categories"
         android:layout_width="210dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/account_cash" />
