@@ -9,6 +9,11 @@ import java.util.Calendar;
 
 class Aloft {
 
+    public static Intent getAccountActivityIntent(Context context) {
+        Intent intent = new Intent(context, AccountActivity.class);
+
+        return intent;
+    }
 
     static StringBuffer getPrintableDate(Calendar calendar) {
         StringBuffer dateString = new StringBuffer();
