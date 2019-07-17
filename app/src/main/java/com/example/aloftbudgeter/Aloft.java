@@ -15,6 +15,12 @@ class Aloft {
         return intent;
     }
 
+    public static Intent getMainActivityIntent(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+
+        return intent;
+    }
+
     static StringBuffer getPrintableDate(Calendar calendar) {
         StringBuffer dateString = new StringBuffer();
         dateString.append(calendar.get(Calendar.MONTH) +1);
