@@ -6,6 +6,7 @@ import androidx.appcompat.widget.DialogTitle;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -82,6 +83,14 @@ public class AccountActivity extends AppCompatActivity {
         listView.setAdapter(
                 new CategoryListAdapter(AccountActivity.this, listItems)
             );
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(Aloft.getCategoryActivityIntent(getApplicationContext()));
+                finish();
+                return;
+            }
+        });
     }
 
     @Override
