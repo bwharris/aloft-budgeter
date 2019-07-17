@@ -8,7 +8,9 @@ class Account implements Serializable {
 
     private Calendar weekStart = Calendar.getInstance();
     private String name;
-    private ArrayList<Category> categories;
+    private ArrayList<Category> categories = new ArrayList<>();
+
+    Account(){}
 
     Account(Calendar seedDate, String name, ArrayList<Category> categories) {
         setWeekStart(seedDate);
