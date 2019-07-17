@@ -45,19 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/account_name" />
 
-    <!--<EditText-->
-        <!--android:id="@+id/account_income"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:ems="10"-->
-        <!--android:hint="Weekly Income"-->
-        <!--android:inputType="numberSigned"-->
-        <!--android:textAlignment="center"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/account_start" />-->
-
     <EditText
         android:id="@+id/account_cash"
         android:layout_width="wrap_content"
@@ -75,7 +62,7 @@
     <ListView
         android:id="@+id/account_categories"
         android:layout_width="210dp"
-        android:layout_height="80dp"
+        android:layout_height="200dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

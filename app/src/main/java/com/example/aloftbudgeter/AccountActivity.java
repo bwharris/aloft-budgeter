@@ -1,6 +1,7 @@
 package com.example.aloftbudgeter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.DialogTitle;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,19 +25,28 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        //Account account = null;
         List<Category> listItems = new ArrayList<>();
-        for(String name: getApplicationContext().getString(R.string.reqListItems).split(";")){
+        for(String name: getApplicationContext().getString(R.string.reqListItems).split(";")) {
             listItems.add(new Category(name));
         }
 
         displayCategoryList(listItems);
+
+        findViewById(R.id.account_add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(Aloft.getCategoryActivityIntent(getApplicationContext()));
+                finish();
+                return;
+            }
+        });
 
         findViewById(R.id.account_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(Aloft.getMainActivityIntent(getApplicationContext(), null));
                 finish();
+                return;
             }
         });
 
@@ -61,6 +71,7 @@ public class AccountActivity extends AppCompatActivity {
 
                     startActivity(Aloft.getMainActivityIntent(getApplicationContext(), account));
                     finish();
+                    return;
                 }
             }
         });

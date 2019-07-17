@@ -16,6 +16,12 @@ class Aloft {
         return intent;
     }
 
+    public static Intent getCategoryActivityIntent(Context context) {
+        Intent intent = new Intent(context, CategoryActivity.class);
+
+        return intent;
+    }
+
     public static Intent getMainActivityIntent(Context context, Account account) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(context.getString(R.string.extra_account), account);
