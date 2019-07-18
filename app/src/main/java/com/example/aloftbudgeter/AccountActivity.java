@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class AccountActivity extends AppCompatActivity {
-    Integer[] reqInputIDs = new Integer[] {
+    final private Integer[] reqInputIDs = new Integer[] {
             R.id.account_name,
             R.id.account_start,
             R.id.account_cash
@@ -27,7 +27,8 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         List<Category> listItems = new ArrayList<>();
-        for(String name: getApplicationContext().getString(R.string.reqListItems).split(";")) {
+
+        for(String name: getResources().getStringArray(R.array.reqListItems)) {
             listItems.add(new Category(name));
         }
 
@@ -36,6 +37,8 @@ public class AccountActivity extends AppCompatActivity {
         findViewById(R.id.account_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Account account = getAccountFromActivity();
+
                 startActivity(Aloft.getCategoryActivityIntent(getApplicationContext()));
                 finish();
                 return;
@@ -59,18 +62,14 @@ public class AccountActivity extends AppCompatActivity {
                 for(Integer i: reqInputIDs){
                     if(TextUtils.isEmpty(((EditText)findViewById(i)).getText().toString())){
                         ((EditText)findViewById(i)).setError("A value is needed");
-                        viewsNeedingInput.add(i);
                     }
                 }
 
                 if(viewsNeedingInput.size() == 0) {
-                    Account account = new Account(
-                            Calendar.getInstance(),
-                            ((EditText) findViewById(R.id.account_name)).getText().toString(),
-                            new ArrayList<Category>()
-                        );
-
-                    startActivity(Aloft.getMainActivityIntent(getApplicationContext(), account));
+                    startActivity(Aloft.getMainActivityIntent(
+                            getApplicationContext(),
+                            getAccountFromActivity()
+                        ));
                     finish();
                     return;
                 }
@@ -91,6 +90,18 @@ public class AccountActivity extends AppCompatActivity {
                 return;
             }
         });
+    }
+
+    private Account getAccountFromActivity() {
+        Account account = Aloft.tryGetAccount(
+                getIntent().getExtras(),
+                getApplicationContext().getString(R.string.extra_account),
+                new Account(Calendar.getInstance())
+            );
+
+       for(Integer i: reqInputIDs){ account.updateFromView(findViewById(i)); }
+
+        return  account;
     }
 
     @Override

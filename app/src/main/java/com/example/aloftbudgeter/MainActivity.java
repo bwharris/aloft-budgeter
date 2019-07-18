@@ -17,12 +17,12 @@ public class MainActivity extends AppCompatActivity {
 
         Calendar weekStart = Aloft.tryGetWeekStart(
                 getIntent().getExtras(),
-                getApplicationContext(),
+                getApplicationContext().getString(R.string.extra_account),
                 Calendar.getInstance());
 
         final Account account = Aloft.tryGetAccount(
                 getIntent().getExtras(),
-                getApplicationContext(),
+                getApplicationContext().getString(R.string.extra_account),
                 null
             );
 

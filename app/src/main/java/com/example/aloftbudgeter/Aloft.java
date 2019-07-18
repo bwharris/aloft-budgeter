@@ -10,19 +10,26 @@ import java.util.List;
 
 class Aloft {
 
-    public static Intent getAccountActivityIntent(Context context) {
+    static Intent getAccountActivityIntent(Context context) {
         Intent intent = new Intent(context, AccountActivity.class);
 
         return intent;
     }
 
-    public static Intent getCategoryActivityIntent(Context context) {
+    static Intent getCategoryActivityIntent(Context context) {
         Intent intent = new Intent(context, CategoryActivity.class);
 
         return intent;
     }
 
-    public static Intent getMainActivityIntent(Context context, Account account) {
+    static List<Integer> getIntegerSequence(int start, int numberOfIntegers, int step) {
+        List<Integer> sequence = new ArrayList<>();
+        for(int i = 0; i < numberOfIntegers * step;){ sequence.add(i += step); }
+
+        return sequence;
+    }
+
+    static Intent getMainActivityIntent(Context context, Account account) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(context.getString(R.string.extra_account), account);
 
@@ -57,15 +64,15 @@ class Aloft {
                 extras.get(name).getClass() == Account.class;
     }
 
-    static Account tryGetAccount(Bundle extras, Context context, Account defaultValue) {
-        return hasAccount(extras, context.getString(R.string.extra_account)) ?
-                (Account)extras.get(context.getString(R.string.extra_account))
+    static Account tryGetAccount(Bundle extras, String name, Account defaultValue) {
+        return hasAccount(extras, name) ?
+                (Account)extras.get(name)
                 : defaultValue;
     }
 
-    static Calendar tryGetWeekStart(Bundle extras, Context context, Calendar defaultSeedDate) {
-        return hasAccount(extras, context.getString(R.string.extra_account)) ?
-                ((Account)extras.get(context.getString(R.string.extra_account))).getWeekStart()
+    static Calendar tryGetWeekStart(Bundle extras, String name, Calendar defaultSeedDate) {
+        return hasAccount(extras, name) ?
+                ((Account)extras.get(name)).getWeekStart()
                 : getStartOfWeek(defaultSeedDate);
     }
 }
