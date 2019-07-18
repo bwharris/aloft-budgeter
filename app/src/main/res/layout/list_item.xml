@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/item_name"
+        android:id="@+id/list_name"
         android:layout_width="240dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -17,11 +17,11 @@
         android:text="@string/default_string"
         android:textAlignment="center"
         android:textSize="18dp"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/list_edit"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/item_diff"
+        android:id="@+id/list_diff"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -29,11 +29,11 @@
         android:gravity="bottom|left"
         android:text="@string/default_string"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/item_name"
+        app:layout_constraintStart_toEndOf="@+id/list_name"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/list_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

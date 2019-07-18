@@ -32,7 +32,11 @@ public class AccountActivity extends AppCompatActivity {
             listItems.add(new Category(name));
         }
 
-        displayCategoryList(listItems);
+        Aloft.displayCategoryList(
+                AccountActivity.this,
+                (ListView) findViewById(R.id.account_categories),
+                listItems
+        );
 
         findViewById(R.id.account_add).setOnClickListener(new View.OnClickListener() {
             @Override

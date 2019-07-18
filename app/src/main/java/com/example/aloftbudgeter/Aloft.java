@@ -1,8 +1,12 @@
 package com.example.aloftbudgeter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -74,5 +78,21 @@ class Aloft {
         return hasAccount(extras, name) ?
                 ((Account)extras.get(name)).getWeekStart()
                 : getStartOfWeek(defaultSeedDate);
+    }
+
+    public static void displayCategoryList(
+            final Activity activity,
+            ListView listView,
+            List<Category> listItems
+    ) {
+        listView.setAdapter(new CategoryListAdapter(activity, listItems));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                activity.startActivity(getCategoryActivityIntent(activity.getApplicationContext()));
+                activity.finish();
+                return;
+            }
+        });
     }
 }
