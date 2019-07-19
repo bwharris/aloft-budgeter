@@ -1,7 +1,6 @@
 package com.example.aloftbudgeter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.DialogTitle;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,14 +8,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class AccountActivity extends AppCompatActivity {
-    final private Integer[] reqInputIDs = new Integer[] {
+    final private Integer[] editableViews = new Integer[] {
             R.id.account_name,
             R.id.account_start,
             R.id.account_cash
@@ -27,25 +25,46 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        List<Category> listItems = new ArrayList<>();
+        final List<Integer> catDisplayIndexes = new ArrayList<>();
+        Account account = Aloft.tryGetAccount(
+                getIntent().getExtras(),
+                getApplicationContext().getString(R.string.extra_account),
+                new Account(Calendar.getInstance())
+            );
 
-        for(String name: getResources().getStringArray(R.array.reqListItems)) {
-            listItems.add(new Category(name));
+        if(
+            Aloft.tryGetNeedsReqCats(
+                    getIntent().getExtras(),
+                    getResources().getString(R.string.extra_needsReqCats),
+                    true
+            )
+        ){
+            int index = 0;
+            for(String name: getResources().getStringArray(R.array.reqCategories)) {
+                account.addCategory(new Category(name));
+                catDisplayIndexes.add(index++);
+            }
         }
 
         Aloft.displayCategoryList(
                 AccountActivity.this,
                 (ListView) findViewById(R.id.account_categories),
-                listItems
+                account,
+                catDisplayIndexes
             );
 
         findViewById(R.id.account_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Account account = getAccountFromActivity();
-
-                startActivity(Aloft.getCategoryActivityIntent(getApplicationContext()));
+                startActivity(Aloft.getCategoryActivityIntent(
+                        getApplicationContext(),
+                        account,
+                        catDisplayIndexes,
+                        catDisplayIndexes.size()
+                    ));
                 finish();
+
                 return;
             }
         });
@@ -55,6 +74,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(Aloft.getMainActivityIntent(getApplicationContext(), null));
                 finish();
+
                 return;
             }
         });
@@ -62,37 +82,23 @@ public class AccountActivity extends AppCompatActivity {
         findViewById(R.id.account_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Integer> viewsNeedingInput = new ArrayList<>();
+                List<Integer> editableViewsMissingValues = new ArrayList<>();
 
-                for(Integer i: reqInputIDs){
+                for(Integer i: editableViews){
                     if(TextUtils.isEmpty(((EditText)findViewById(i)).getText().toString())){
                         ((EditText)findViewById(i)).setError("A value is needed");
                     }
                 }
 
-                if(viewsNeedingInput.size() == 0) {
+                if(editableViewsMissingValues.size() == 0) {
                     startActivity(Aloft.getMainActivityIntent(
                             getApplicationContext(),
                             getAccountFromActivity()
                         ));
                     finish();
+
                     return;
                 }
-            }
-        });
-    }
-
-    private void displayCategoryList(List<Category> listItems) {
-        ListView listView = findViewById(R.id.account_categories);
-        listView.setAdapter(
-                new CategoryListAdapter(AccountActivity.this, listItems)
-            );
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(Aloft.getCategoryActivityIntent(getApplicationContext()));
-                finish();
-                return;
             }
         });
     }
@@ -104,7 +110,7 @@ public class AccountActivity extends AppCompatActivity {
                 new Account(Calendar.getInstance())
             );
 
-       for(Integer i: reqInputIDs){ account.updateFromView(findViewById(i)); }
+       for(Integer i: editableViews){ account.updateFromView(findViewById(i)); }
 
         return  account;
     }
@@ -113,7 +119,7 @@ public class AccountActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        for(Integer i : reqInputIDs) { ((EditText)findViewById(i)).setText(""); }
+        for(Integer i : editableViews) { ((EditText)findViewById(i)).setText(""); }
     }
 
     @Override

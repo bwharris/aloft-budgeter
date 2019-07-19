@@ -23,8 +23,9 @@ class CategoryListAdapter extends ArrayAdapter<Category> {
 
     @Override
     public View getView(int position, View view, ViewGroup parent){
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.list_item, null, true);
+//        LayoutInflater inflater = activity.getLayoutInflater();
+//        View rowView = inflater.inflate(R.layout.list_item, null, true);
+        View rowView = activity.getLayoutInflater().inflate(R.layout.list_item, null, true);
         ((TextView)rowView.findViewById(R.id.list_name)).setText(listItems.get(position).getName());
 
         return rowView;

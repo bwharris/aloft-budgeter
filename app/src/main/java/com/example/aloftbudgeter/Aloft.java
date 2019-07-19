@@ -17,13 +17,18 @@ class Aloft {
     static void displayCategoryList(
             final Activity activity,
             ListView listView,
-            List<Category> listItems
-    ) {
-        listView.setAdapter(new CategoryListAdapter(activity, listItems));
+            final Account account,
+            final List<Integer> catDisplayIndexes) {
+        listView.setAdapter(new CategoryListAdapter(activity, account.getCategories()));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                activity.startActivity(getCategoryActivityIntent(activity.getApplicationContext()));
+                activity.startActivity(getCategoryActivityIntent(
+                        activity.getApplicationContext(),
+                        account,
+                        catDisplayIndexes,
+                        i
+                    ));
                 activity.finish();
                 return;
             }
@@ -37,8 +42,19 @@ class Aloft {
         return intent;
     }
 
-    static Intent getCategoryActivityIntent(Context context) {
+    static Intent getCategoryActivityIntent(
+            Context context,
+            Account account,
+            List<Integer> catDisplayIndexes,
+            int position
+    ) {
         Intent intent = new Intent(context, CategoryActivity.class);
+        intent.putExtra(context.getString(R.string.extra_account), account);
+        intent.putIntegerArrayListExtra(context.getString(
+                R.string.extra_catDisplayIndexes),
+                (ArrayList<Integer>) catDisplayIndexes
+            );
+        intent.putExtra(context.getString(R.string.extra_position), position);
 
         return intent;
     }

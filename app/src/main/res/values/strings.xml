@@ -3,9 +3,16 @@
     <string name="default_string">--</string>
     <string name="extra_account">account</string>
     <string name="extra_needsReqCats">needsReqCats</string>
-    <string-array name="reqListItems">
+    <string name="extra_catDisplayIndexes">catDisplayIndexes</string>
+    <string name="extra_position">position</string>
+    <string-array name="reqCategories">
         <item>Income</item>
         <item>Contingency</item>
         <item>Spendable Contingency</item>
+    </string-array>
+    <string-array name="coreCategories">
+        <item>Starting Balance</item>
+        <item>Spending Cash</item>
+        <item>Ending Balance</item>
     </string-array>
 </resources>

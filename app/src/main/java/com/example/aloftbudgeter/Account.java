@@ -37,6 +37,10 @@ class Account implements Serializable {
 
     ArrayList<Category> getCategories() { return categories; }
 
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
+
     public void updateFromView(View view) {
         switch (view.getId()){
             case R.id.account_name:
