@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 class Account implements Serializable {
 
@@ -59,31 +60,39 @@ class Account implements Serializable {
             case R.id.account_name:
                 setName(((EditText)view).getText().toString());
                 break;
-            case R.id.account_start:
-                this.categories.get(
-                        Aloft.getCategoryIndexHashMap(this.categories).get(
-                                activity.getResources().getString(R.string.core_start_balance)
-                            )
-                    ).addBudgetItem(new BudgetItem(
-                            Calendar.getInstance(),
-                            Aloft.tryParseInteger((EditText)view, 0),
-                            true
-                        ));
-                break;
-            case R.id.account_cash:
-                this.categories.get(
-                        Aloft.getCategoryIndexHashMap(this.categories).get(
-                                activity.getResources().getString(R.string.core_cash)
-                            )
-                    ).addBudgetItems(
-                            activity,
-                            calendar,
-                            Aloft.tryParseInteger((EditText)view, 0),
-                            Aloft.Frequency.weekly
-                        );
-                break;
+//            case R.id.account_start:
+//                this.categories.get(
+//                        Aloft.getCategoryIndexHashMap(this.categories).get(
+//                                activity.getResources().getString(R.string.core_start_balance)
+//                            )
+//                    ).addBudgetItem(new BudgetItem(
+//                            Calendar.getInstance(),
+//                            Aloft.tryParseInteger((EditText)view, 0),
+//                            true
+//                        ));
+//                break;
+//            case R.id.account_cash:
+//                this.categories.get(
+//                        Aloft.getCategoryIndexHashMap(this.categories).get(
+//                                activity.getResources().getString(R.string.core_cash)
+//                            )
+//                    ).addBudgetItems(
+//                            activity,
+//                            calendar,
+//                            Aloft.tryParseInteger((EditText)view, 0),
+//                            Aloft.Frequency.weekly
+//                        );
+//                break;
             default:
                 break;
         }
+    }
+
+    public List<String> getCategories(List<Integer> indexes) {
+        List<String> categories = new ArrayList<>();
+        for(Integer i: indexes){ categories.add(this.categories.get(i).getName()); }
+        categories.add("New");
+
+        return categories;
     }
 }

@@ -135,6 +135,12 @@ class Aloft {
                 extras.get(name).getClass() == Account.class;
     }
 
+    private static boolean hasCatDisplayIndexes(Bundle extras, String name) {
+        return extras != null &&
+                extras.get(name) != null &&
+                extras.get(name).getClass() == ArrayList.class;
+    }
+
     private static boolean hasNeedReqCats(Bundle extras, String name) {
         return extras != null &&
                 extras.get(name) != null &&
@@ -150,6 +156,10 @@ class Aloft {
 
     static Account tryGetAccount(Bundle extras, String name, Account defaultValue) {
         return hasAccount(extras, name) ? (Account)extras.get(name) : defaultValue;
+    }
+
+    static List<Integer> tryGetCatDisplayIndexes(Bundle extras, String name, List<Integer> defaultValue) {
+        return hasCatDisplayIndexes(extras, name) ? (List<Integer>) extras.get(name) : defaultValue;
     }
 
     static boolean tryGetNeedsReqCats(Bundle extras, String name, boolean defaultVaue) {
