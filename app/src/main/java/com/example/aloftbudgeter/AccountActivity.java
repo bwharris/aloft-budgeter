@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,7 +37,7 @@ public class AccountActivity extends AppCompatActivity {
                 AccountActivity.this,
                 (ListView) findViewById(R.id.account_categories),
                 listItems
-        );
+            );
 
         findViewById(R.id.account_add).setOnClickListener(new View.OnClickListener() {
             @Override

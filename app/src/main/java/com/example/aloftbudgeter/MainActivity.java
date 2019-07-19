@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             );
 
         if(account == null){
-            startActivity(Aloft.getAccountActivityIntent(getApplicationContext()));
+            startActivity(Aloft.getAccountActivityIntent(getApplicationContext(), true));
             finish();
             return;
         }

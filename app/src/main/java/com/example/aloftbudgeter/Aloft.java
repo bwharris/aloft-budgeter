@@ -14,8 +14,25 @@ import java.util.List;
 
 class Aloft {
 
-    static Intent getAccountActivityIntent(Context context) {
+    static void displayCategoryList(
+            final Activity activity,
+            ListView listView,
+            List<Category> listItems
+    ) {
+        listView.setAdapter(new CategoryListAdapter(activity, listItems));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                activity.startActivity(getCategoryActivityIntent(activity.getApplicationContext()));
+                activity.finish();
+                return;
+            }
+        });
+    }
+
+    static Intent getAccountActivityIntent(Context context, boolean needsReCats) {
         Intent intent = new Intent(context, AccountActivity.class);
+        intent.putExtra(context.getString(R.string.extra_needsReqCats), needsReCats);
 
         return intent;
     }
@@ -68,31 +85,25 @@ class Aloft {
                 extras.get(name).getClass() == Account.class;
     }
 
+    private static boolean hasNeedReqCats(Bundle extras, String name) {
+        return extras != null &&
+                extras.get(name) != null &&
+                extras.get(name).getClass() == Boolean.class;
+    }
+
     static Account tryGetAccount(Bundle extras, String name, Account defaultValue) {
         return hasAccount(extras, name) ?
                 (Account)extras.get(name)
                 : defaultValue;
     }
 
+    static boolean tryGetNeedsReqCats(Bundle extras, String name, boolean defaultVaue) {
+        return hasNeedReqCats(extras, name) ? (Boolean)extras.get(name) : defaultVaue;
+    }
+
     static Calendar tryGetWeekStart(Bundle extras, String name, Calendar defaultSeedDate) {
         return hasAccount(extras, name) ?
                 ((Account)extras.get(name)).getWeekStart()
                 : getStartOfWeek(defaultSeedDate);
-    }
-
-    public static void displayCategoryList(
-            final Activity activity,
-            ListView listView,
-            List<Category> listItems
-    ) {
-        listView.setAdapter(new CategoryListAdapter(activity, listItems));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                activity.startActivity(getCategoryActivityIntent(activity.getApplicationContext()));
-                activity.finish();
-                return;
-            }
-        });
     }
 }

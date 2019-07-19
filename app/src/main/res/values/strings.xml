@@ -2,6 +2,7 @@
     <string name="app_name">Aloft Budgeter</string>
     <string name="default_string">--</string>
     <string name="extra_account">account</string>
+    <string name="extra_needsReqCats">needsReqCats</string>
     <string-array name="reqListItems">
         <item>Income</item>
         <item>Contingency</item>
