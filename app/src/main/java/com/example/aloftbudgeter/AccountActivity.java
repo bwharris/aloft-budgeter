@@ -32,6 +32,12 @@ public class AccountActivity extends AppCompatActivity {
                 new Account(Calendar.getInstance())
             );
 
+//        if(account.getCategories().size() == 0){
+//            for(){
+//
+//            }
+//        }
+
         if(
             Aloft.tryGetNeedsReqCats(
                     getIntent().getExtras(),
@@ -56,10 +62,10 @@ public class AccountActivity extends AppCompatActivity {
         findViewById(R.id.account_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Account account = getAccountFromActivity();
+                //Account add_account = getAccountFromActivity();
                 startActivity(Aloft.getCategoryActivityIntent(
                         getApplicationContext(),
-                        account,
+                        getAccountFromActivity(),
                         catDisplayIndexes,
                         catDisplayIndexes.size()
                     ));
@@ -87,6 +93,7 @@ public class AccountActivity extends AppCompatActivity {
                 for(Integer i: editableViews){
                     if(TextUtils.isEmpty(((EditText)findViewById(i)).getText().toString())){
                         ((EditText)findViewById(i)).setError("A value is needed");
+                        editableViewsMissingValues.add(i);
                     }
                 }
 
