@@ -1,8 +1,9 @@
 package com.example.aloftbudgeter;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-class BudgetItem {
+class BudgetItem implements Serializable {
     private Calendar weekStart;
     private int value;
     private boolean isActual;

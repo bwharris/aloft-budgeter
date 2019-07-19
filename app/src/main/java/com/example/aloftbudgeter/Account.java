@@ -40,11 +40,21 @@ class Account implements Serializable {
 
     ArrayList<Category> getCategories() { return categories; }
 
+    public boolean getHasReqCategories(Activity activity) {
+        HashMap<String, Integer> categoryIndexHashMap =
+                Aloft.getCategoryIndexHashMap(this.categories);
+        for(String name: activity.getResources().getStringArray(R.array.reqCategories)) {
+            if(categoryIndexHashMap.get(name) == null) { return false; }
+        }
+
+        return true;
+    }
+
     void addCategory(Category category) {
         this.categories.add(category);
     }
 
-    void updateFromView(Activity activity, View view, HashMap<String, Integer> categoryIndexHashMap) {
+    void updateFromView(Activity activity, View view) {
         Category category;
 
         switch (view.getId()){
@@ -52,23 +62,26 @@ class Account implements Serializable {
                 setName(((EditText)view).getText().toString());
                 break;
             case R.id.account_start:
-                this.categories.get(categoryIndexHashMap.get(
-                        activity.getResources().getString(R.string.core_start_balance)
-                    )).addBudgetItem(new BudgetItem(
-                        Calendar.getInstance(),
-                        Aloft.tryParseInteger(((EditText)view), 0),
-                        true
-                    ));
+                this.categories.get(
+                        Aloft.getCategoryIndexHashMap(this.categories).get(
+                                activity.getResources().getString(R.string.core_start_balance)
+                            )
+                    ).addBudgetItem(new BudgetItem(
+                            Calendar.getInstance(),
+                            Aloft.tryParseInteger((EditText)view, 0),
+                            true
+                        ));
                 break;
             case R.id.account_cash:
-                this.categories.get(categoryIndexHashMap.get(
-                        activity.getResources().getString(R.string.core_cash)
-                    )).addBudgetItem(new BudgetItem(
-                        Calendar.getInstance(),
-                        Aloft.tryParseInteger(((EditText)view), 0),
-                        false
-                    ));
-
+                this.categories.get(
+                        Aloft.getCategoryIndexHashMap(this.categories).get(
+                                activity.getResources().getString(R.string.core_cash)
+                            )
+                    ).addBudgetItem(new BudgetItem(
+                            Calendar.getInstance(),
+                            Aloft.tryParseInteger((EditText)view, 0),
+                            false
+                        ));
                 break;
             default:
                 break;

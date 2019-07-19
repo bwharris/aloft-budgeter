@@ -19,19 +19,20 @@ public class AccountActivity extends AppCompatActivity {
             R.id.account_start,
             R.id.account_cash
         };
+    Account account = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
+        int index = 0;
         final List<Integer> catDisplayIndexes = new ArrayList<>();
-        Account account = Aloft.tryGetAccount(
+        account = Aloft.tryGetAccount(
                 getIntent().getExtras(),
                 getApplicationContext().getString(R.string.extra_account),
                 new Account(Calendar.getInstance())
             );
-        int index = 0;
 
         if(account.getCategories().size() == 0){
             for(String name: getResources().getStringArray(R.array.coreCategories)){
@@ -111,21 +112,14 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private Account getAccountFromActivity() {
-        Account account = Aloft.tryGetAccount(
-                getIntent().getExtras(),
-                getApplicationContext().getString(R.string.extra_account),
-                new Account(Calendar.getInstance())
-            );
+        account = account != null ? account
+                : Aloft.tryGetAccount(
+                        getIntent().getExtras(),
+                        getString(R.string.extra_account),
+                        new Account(Calendar.getInstance())
+                    );
 
-        //TODO: add categories to account from list
-
-        for(Integer i: editableViews){
-            account.updateFromView(
-                    this,
-                    findViewById(i),
-                    Aloft.getCategoryIndexHashMap(account.getCategories())
-            );
-        }
+        for(Integer i: editableViews){ account.updateFromView(this, findViewById(i)); }
 
         return  account;
     }

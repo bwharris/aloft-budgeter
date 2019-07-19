@@ -6,7 +6,7 @@ import java.util.List;
 
 class Category implements Serializable {
     private String name;
-    private List<BudgetItem> budgetItems = new ArrayList<>();
+    private ArrayList<BudgetItem> budgetItems = new ArrayList<>();
 
     Category(String name) {
         this.setName(name);
@@ -18,5 +18,9 @@ class Category implements Serializable {
 
     void addBudgetItem(BudgetItem budgetItem) {
         this.budgetItems.add(budgetItem);
+    }
+
+    ArrayList<BudgetItem> getBudgetItems() {
+        return this.budgetItems;
     }
 }
