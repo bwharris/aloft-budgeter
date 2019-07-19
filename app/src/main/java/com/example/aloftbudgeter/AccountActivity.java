@@ -28,14 +28,6 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        //test
-//        StringBuffer testMessage =
-//                new StringBuffer(Aloft.getPrintableDate(Aloft.getStartDate(getApplicationContext())));
-//
-//        Toast test = Toast.makeText(this, testMessage.toString(), Toast.LENGTH_LONG);
-//        test.show();
-        //end of test
-
         int index = 0;
         final List<Integer> catDisplayIndexes = new ArrayList<>();
         account = Aloft.tryGetAccount(
@@ -129,7 +121,9 @@ public class AccountActivity extends AppCompatActivity {
                         new Account(Calendar.getInstance())
                     );
 
-        for(Integer i: editableViews){ account.updateFromView(this, findViewById(i)); }
+        for(Integer i: editableViews){
+            account.updateFromView(this, findViewById(i), account.getWeekStart());
+        }
 
         return  account;
     }

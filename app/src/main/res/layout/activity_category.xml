@@ -87,13 +87,6 @@
             android:layout_weight="1"
             android:text="Monthly" />
 
-        <RadioButton
-            android:id="@+id/category_semi_monthly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Semi-Monthly" />
-
     </RadioGroup>
 
     <Spinner

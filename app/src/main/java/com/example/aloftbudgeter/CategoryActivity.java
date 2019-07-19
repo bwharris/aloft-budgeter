@@ -16,28 +16,28 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
 
         ((Spinner)findViewById(R.id.category_week_selector)).setAdapter(
-                new ArrayAdapter<Integer>(
+                new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_item,
                         Aloft.getIntegerSequence(1, 10, 1)
                     )
             );
         ((Spinner)findViewById(R.id.category_monthly_day_selector)).setAdapter(
-                new ArrayAdapter<Integer>(
+                new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_item,
                         Aloft.getIntegerSequence(1, 31, 1)
                     )
             );
         ((Spinner)findViewById(R.id.category_once_month_selector)).setAdapter(
-                new ArrayAdapter<Integer>(
+                new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_item,
                         Aloft.getIntegerSequence(1,12,1)
                     )
             );
         ((Spinner)findViewById(R.id.category_once_day_selector)).setAdapter(
-                new ArrayAdapter<Integer>(
+                new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_item,
                         Aloft.getIntegerSequence(1,31,1)

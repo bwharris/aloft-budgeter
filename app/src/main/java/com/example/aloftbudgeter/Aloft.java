@@ -19,6 +19,14 @@ import java.util.List;
 
 class Aloft {
 
+    enum Frequency{
+        once,
+        weekly,
+        monthly
+    }
+
+    final static long weekToMilliSec = 604800000;
+
     static void displayCategoryList(
             final Activity activity,
             ListView listView,

@@ -54,9 +54,7 @@ class Account implements Serializable {
         this.categories.add(category);
     }
 
-    void updateFromView(Activity activity, View view) {
-        Category category;
-
+    void updateFromView(Activity activity, View view, Calendar calendar) {
         switch (view.getId()){
             case R.id.account_name:
                 setName(((EditText)view).getText().toString());
@@ -77,11 +75,12 @@ class Account implements Serializable {
                         Aloft.getCategoryIndexHashMap(this.categories).get(
                                 activity.getResources().getString(R.string.core_cash)
                             )
-                    ).addBudgetItem(new BudgetItem(
-                            Calendar.getInstance(),
+                    ).addBudgetItems(
+                            activity,
+                            calendar,
                             Aloft.tryParseInteger((EditText)view, 0),
-                            false
-                        ));
+                            Aloft.Frequency.weekly
+                        );
                 break;
             default:
                 break;
