@@ -7,9 +7,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,6 +27,14 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+
+        //test
+//        StringBuffer testMessage =
+//                new StringBuffer(Aloft.getPrintableDate(Aloft.getStartDate(getApplicationContext())));
+//
+//        Toast test = Toast.makeText(this, testMessage.toString(), Toast.LENGTH_LONG);
+//        test.show();
+        //end of test
 
         int index = 0;
         final List<Integer> catDisplayIndexes = new ArrayList<>();

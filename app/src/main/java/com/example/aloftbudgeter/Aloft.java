@@ -3,6 +3,7 @@ package com.example.aloftbudgeter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -100,6 +102,14 @@ class Aloft {
         return  dateString;
     }
 
+    static Calendar getStartDate(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.pref),0);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(pref.getLong(context.getString(R.string.pref_start_date), 0));
+
+        return calendar;
+    }
+
     static Calendar getStartOfWeek(Calendar seedDate) {
         Calendar calendar = (Calendar) seedDate.clone();
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
@@ -123,10 +133,15 @@ class Aloft {
                 extras.get(name).getClass() == Boolean.class;
     }
 
+    static void saveStartDate(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.pref),0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putLong(context.getString(R.string.pref_start_date), getStartOfWeek(Calendar.getInstance()).getTimeInMillis());
+        editor.commit();
+    }
+
     static Account tryGetAccount(Bundle extras, String name, Account defaultValue) {
-        return hasAccount(extras, name) ?
-                (Account)extras.get(name)
-                : defaultValue;
+        return hasAccount(extras, name) ? (Account)extras.get(name) : defaultValue;
     }
 
     static boolean tryGetNeedsReqCats(Bundle extras, String name, boolean defaultVaue) {
@@ -139,11 +154,8 @@ class Aloft {
                 : getStartOfWeek(defaultSeedDate);
     }
 
-    public static int tryParseInteger(EditText editText, int defaultValue) {
-        try{
-            return Integer.parseInt(editText.getText().toString());
-        } catch (NumberFormatException e){
-            return defaultValue;
-        }
+    static int tryParseInteger(EditText editText, int defaultValue) {
+        try{ return Integer.parseInt(editText.getText().toString()); }
+        catch (NumberFormatException e){ return defaultValue; }
     }
 }

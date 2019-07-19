@@ -11,6 +11,8 @@
     <string name="req_income">Income</string>
     <string name="req_contingency">Contingency</string>
     <string name="req_spend_contingency">Spendable Contingency</string>
+    <string name="pref">pref</string>
+    <string name="pref_start_date">start_date</string>
     <string-array name="reqCategories">
         <item>@string/req_income</item>
         <item>@string/req_contingency</item>
