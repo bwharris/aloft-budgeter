@@ -5,12 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class AccountActivity extends AppCompatActivity {
@@ -31,12 +31,14 @@ public class AccountActivity extends AppCompatActivity {
                 getApplicationContext().getString(R.string.extra_account),
                 new Account(Calendar.getInstance())
             );
+        int index = 0;
 
-//        if(account.getCategories().size() == 0){
-//            for(){
-//
-//            }
-//        }
+        if(account.getCategories().size() == 0){
+            for(String name: getResources().getStringArray(R.array.coreCategories)){
+                account.addCategory(new Category(name));
+                index++;
+            }
+        }
 
         if(
             Aloft.tryGetNeedsReqCats(
@@ -45,7 +47,6 @@ public class AccountActivity extends AppCompatActivity {
                     true
             )
         ){
-            int index = 0;
             for(String name: getResources().getStringArray(R.array.reqCategories)) {
                 account.addCategory(new Category(name));
                 catDisplayIndexes.add(index++);
@@ -62,7 +63,6 @@ public class AccountActivity extends AppCompatActivity {
         findViewById(R.id.account_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Account add_account = getAccountFromActivity();
                 startActivity(Aloft.getCategoryActivityIntent(
                         getApplicationContext(),
                         getAccountFromActivity(),
@@ -117,7 +117,15 @@ public class AccountActivity extends AppCompatActivity {
                 new Account(Calendar.getInstance())
             );
 
-       for(Integer i: editableViews){ account.updateFromView(findViewById(i)); }
+        //TODO: add categories to account from list
+
+        for(Integer i: editableViews){
+            account.updateFromView(
+                    this,
+                    findViewById(i),
+                    Aloft.getCategoryIndexHashMap(account.getCategories())
+            );
+        }
 
         return  account;
     }

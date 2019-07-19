@@ -1,11 +1,14 @@
 package com.example.aloftbudgeter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 class Account implements Serializable {
 
@@ -37,14 +40,35 @@ class Account implements Serializable {
 
     ArrayList<Category> getCategories() { return categories; }
 
-    public void addCategory(Category category) {
+    void addCategory(Category category) {
         this.categories.add(category);
     }
 
-    public void updateFromView(View view) {
+    void updateFromView(Activity activity, View view, HashMap<String, Integer> categoryIndexHashMap) {
+        Category category;
+
         switch (view.getId()){
             case R.id.account_name:
                 setName(((EditText)view).getText().toString());
+                break;
+            case R.id.account_start:
+                this.categories.get(categoryIndexHashMap.get(
+                        activity.getResources().getString(R.string.core_start_balance)
+                    )).addBudgetItem(new BudgetItem(
+                        Calendar.getInstance(),
+                        Aloft.tryParseInteger(((EditText)view), 0),
+                        true
+                    ));
+                break;
+            case R.id.account_cash:
+                this.categories.get(categoryIndexHashMap.get(
+                        activity.getResources().getString(R.string.core_cash)
+                    )).addBudgetItem(new BudgetItem(
+                        Calendar.getInstance(),
+                        Aloft.tryParseInteger(((EditText)view), 0),
+                        false
+                    ));
+
                 break;
             default:
                 break;

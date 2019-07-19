@@ -5,14 +5,20 @@
     <string name="extra_needsReqCats">needsReqCats</string>
     <string name="extra_catDisplayIndexes">catDisplayIndexes</string>
     <string name="extra_position">position</string>
+    <string name="core_start_balance">Starting Balance</string>
+    <string name="core_cash">Spending Cash</string>
+    <string name="core_end_balance">Ending Balance</string>
+    <string name="req_income">Income</string>
+    <string name="req_contingency">Contingency</string>
+    <string name="req_spend_contingency">Spendable Contingency</string>
     <string-array name="reqCategories">
-        <item>Income</item>
-        <item>Contingency</item>
-        <item>Spendable Contingency</item>
+        <item>@string/req_income</item>
+        <item>@string/req_contingency</item>
+        <item>@string/req_spend_contingency</item>
     </string-array>
     <string-array name="coreCategories">
-        <item>Starting Balance</item>
-        <item>Spending Cash</item>
-        <item>Ending Balance</item>
+        <item>@string/core_start_balance</item>
+        <item>@string/core_cash</item>
+        <item>@string/core_end_balance</item>
     </string-array>
 </resources>

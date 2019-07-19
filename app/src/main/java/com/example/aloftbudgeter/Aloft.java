@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 class Aloft {
@@ -18,8 +21,12 @@ class Aloft {
             final Activity activity,
             ListView listView,
             final Account account,
-            final List<Integer> catDisplayIndexes) {
-        listView.setAdapter(new CategoryListAdapter(activity, account.getCategories()));
+            final List<Integer> catDisplayIndexes
+    ) {
+        List<Category> displayCategories = new ArrayList<>();
+        for(Integer i: catDisplayIndexes){ displayCategories.add(account.getCategories().get(i)); }
+
+        listView.setAdapter(new CategoryListAdapter(activity, displayCategories));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -57,6 +64,15 @@ class Aloft {
         intent.putExtra(context.getString(R.string.extra_position), position);
 
         return intent;
+    }
+
+    static HashMap<String, Integer> getCategoryIndexHashMap(ArrayList<Category> categories) {
+        HashMap<String, Integer> hashMap = new HashMap<>();
+        int index = 0;
+
+        for(Category category: categories){ hashMap.put(category.getName(), index++); }
+
+        return hashMap;
     }
 
     static List<Integer> getIntegerSequence(int start, int numberOfIntegers, int step) {
@@ -121,5 +137,13 @@ class Aloft {
         return hasAccount(extras, name) ?
                 ((Account)extras.get(name)).getWeekStart()
                 : getStartOfWeek(defaultSeedDate);
+    }
+
+    public static int tryParseInteger(EditText editText, int defaultValue) {
+        try{
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e){
+            return defaultValue;
+        }
     }
 }
