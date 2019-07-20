@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.INotificationSideChannel;
 import android.text.Editable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -18,6 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 
 class Aloft {
+
+    static ArrayAdapter<String> getDataAdapter(Activity activity, List<String> strings) {
+        return new ArrayAdapter<>(activity, android.R.layout.simple_spinner_item, strings);
+    }
 
     enum Frequency{
         once,
@@ -147,6 +153,12 @@ class Aloft {
                 extras.get(name).getClass() == Boolean.class;
     }
 
+    private static boolean hasPosition(Bundle extras, String name) {
+        return extras != null &&
+                extras.get(name) != null &&
+                extras.get(name).getClass() == Integer.class;
+    }
+
     static void saveStartDate(Context context) {
         SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.pref),0);
         SharedPreferences.Editor editor = pref.edit();
@@ -164,6 +176,10 @@ class Aloft {
 
     static boolean tryGetNeedsReqCats(Bundle extras, String name, boolean defaultVaue) {
         return hasNeedReqCats(extras, name) ? (Boolean)extras.get(name) : defaultVaue;
+    }
+
+    static int tryGetPosition(Bundle extras, String name, int defaultPosition) {
+        return hasPosition(extras, name) ? (int)extras.get(name) : defaultPosition;
     }
 
     static Calendar tryGetWeekStart(Bundle extras, String name, Calendar defaultSeedDate) {
