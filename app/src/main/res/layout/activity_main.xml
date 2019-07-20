@@ -20,8 +20,199 @@
 
     <ListView
         android:id="@+id/main_categories"
-        android:layout_width="395dp"
-        android:layout_height="663dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="60dp" />
+        android:layout_width="288dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_contingency_label" />
+
+    <TextView
+        android:id="@+id/main_start_bal_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Starting Balance: "
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_date" />
+
+    <TextView
+        android:id="@+id/main_start_bal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/default_string"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/main_start_bal_label"
+        app:layout_constraintTop_toBottomOf="@+id/main_date" />
+
+    <TextView
+        android:id="@+id/main_changes_planned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/default_string"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/main_changes_planned_label"
+        app:layout_constraintTop_toBottomOf="@+id/main_start_bal_label" />
+
+    <TextView
+        android:id="@+id/main_changes_planned_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Planned: "
+        android:textSize="14sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_start_bal_label" />
+
+    <TextView
+        android:id="@+id/main_changes_actual_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Actual: "
+        android:textSize="14sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_changes_planned_label" />
+
+    <TextView
+        android:id="@+id/main_changes_actual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/default_string"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/main_changes_actual_label"
+        app:layout_constraintTop_toBottomOf="@+id/main_changes_planned_label" />
+
+    <TextView
+        android:id="@+id/main_changes_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Changes"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/main_changes_planned_label"
+        app:layout_constraintTop_toBottomOf="@+id/main_start_bal_label" />
+
+    <TextView
+        android:id="@+id/main_contingency_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Contingency: "
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_changes_actual_label" />
+
+    <TextView
+        android:id="@+id/main_contingency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/default_string"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/main_contingency_label"
+        app:layout_constraintTop_toBottomOf="@+id/main_changes_actual_label" />
+
+    <TextView
+        android:id="@+id/main_end_bal_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Ending Balance: "
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_category_name" />
+
+    <TextView
+        android:id="@+id/main_end_bal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/default_string"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/main_end_bal_label"
+        app:layout_constraintTop_toBottomOf="@+id/main_category_name" />
+
+    <EditText
+        android:id="@+id/main_category_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="New Category Name"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_categories" />
+
+    <ImageButton
+        android:id="@+id/main_add"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintStart_toEndOf="@+id/main_category_name"
+        app:layout_constraintTop_toBottomOf="@+id/main_categories"
+        app:srcCompat="@drawable/add_to_list" />
+
+    <TextView
+        android:id="@+id/main_forecast_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Forecast: "
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_end_bal_label" />
+
+    <TextView
+        android:id="@+id/main_forecast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/default_string"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/main_forecast_label"
+        app:layout_constraintTop_toBottomOf="@+id/main_end_bal_label" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/main_forecast_label"
+        app:layout_constraintTop_toBottomOf="@+id/main_end_bal_label"
+        app:srcCompat="@drawable/help" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_forecast_label"
+        app:srcCompat="@drawable/save" />
 </androidx.constraintlayout.widget.ConstraintLayout>
