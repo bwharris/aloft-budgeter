@@ -43,19 +43,21 @@ class Aloft {
         for(Integer i: catDisplayIndexes){ displayCategories.add(account.getCategories().get(i)); }
 
         listView.setAdapter(new CategoryListAdapter(activity, displayCategories));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                activity.startActivity(getCategoryActivityIntent(
-                        activity.getApplicationContext(),
-                        account,
-                        catDisplayIndexes,
-                        i
-                    ));
-                activity.finish();
-                return;
+        listView.setOnItemClickListener(
+            new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    activity.startActivity(getCategoryActivityIntent(
+                            activity.getApplicationContext(),
+                            account,
+                            catDisplayIndexes,
+                            i
+                        ));
+                    activity.finish();
+                    return;
+                }
             }
-        });
+        );
     }
 
     static Intent getAccountActivityIntent(Context context, boolean needsReCats) {

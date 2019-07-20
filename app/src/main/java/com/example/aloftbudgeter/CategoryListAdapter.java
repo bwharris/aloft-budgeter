@@ -11,9 +11,12 @@ import java.util.List;
 
 class CategoryListAdapter extends ArrayAdapter<Category> {
 
-
     private final Activity activity;
     private final List<Category> listItems;
+    final Integer[] mainActivityViews = new Integer[] {
+            R.id.list_edit,
+            R.id.list_diff
+        };
 
     public CategoryListAdapter(Activity activity, List<Category> listItems) {
         super(activity, R.layout.list_item, listItems);
@@ -25,6 +28,10 @@ class CategoryListAdapter extends ArrayAdapter<Category> {
     public View getView(int position, View view, ViewGroup parent){
         View rowView = activity.getLayoutInflater().inflate(R.layout.list_item, null, true);
         ((TextView)rowView.findViewById(R.id.list_name)).setText(listItems.get(position).getName());
+
+        if(parent.getId() != R.id.main_categories){
+            for(Integer i: mainActivityViews){ rowView.findViewById(i).setVisibility(View.GONE); }
+        }
 
         return rowView;
     }

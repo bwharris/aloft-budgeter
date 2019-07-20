@@ -78,6 +78,11 @@ public class CategoryActivity extends AppCompatActivity {
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) { }
         });
+        findViewById(R.id.category_selector).setEnabled(
+                position != catDisplayIndexes.size()
+            );
+
+
 
         findViewById(R.id.category_name).setVisibility(
                 position == catDisplayIndexes.size() ? View.VISIBLE : View.GONE

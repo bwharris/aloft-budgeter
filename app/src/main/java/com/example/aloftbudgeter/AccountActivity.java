@@ -7,12 +7,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 public class AccountActivity extends AppCompatActivity {
@@ -22,6 +19,7 @@ public class AccountActivity extends AppCompatActivity {
             R.id.account_cash
         };
     Account account = null;
+    List<Integer> catDisplayIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +27,6 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         int index = 0;
-        final List<Integer> catDisplayIndexes = new ArrayList<>();
         account = Aloft.tryGetAccount(
                 getIntent().getExtras(),
                 getApplicationContext().getString(R.string.extra_account),
@@ -56,61 +53,76 @@ public class AccountActivity extends AppCompatActivity {
             }
         }
 
+        int listViewID = R.id.account_categories;
+
         Aloft.displayCategoryList(
-                AccountActivity.this,
-                (ListView) findViewById(R.id.account_categories),
-                account,
-                catDisplayIndexes
+                this,(ListView)findViewById(R.id.account_categories),account,catDisplayIndexes
             );
 
-        findViewById(R.id.account_add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(Aloft.getCategoryActivityIntent(
-                        getApplicationContext(),
-                        getAccountFromActivity(),
-                        catDisplayIndexes,
-                        catDisplayIndexes.size()
-                    ));
-                finish();
+        findViewById(R.id.account_add).setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int viewID = R.id.account_name;
+                    if(TextUtils.isEmpty(((EditText)findViewById(viewID)).getText().toString())){
+                        ((EditText)findViewById(viewID)).setError("A name is needed");
+                    }
 
-                return;
-            }
-        });
-
-        findViewById(R.id.account_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(Aloft.getMainActivityIntent(getApplicationContext(), null));
-                finish();
-
-                return;
-            }
-        });
-
-        findViewById(R.id.account_next).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                List<Integer> editableViewsMissingValues = new ArrayList<>();
-
-                for(Integer i: editableViews){
-                    if(TextUtils.isEmpty(((EditText)findViewById(i)).getText().toString())){
-                        ((EditText)findViewById(i)).setError("A value is needed");
-                        editableViewsMissingValues.add(i);
+                    else{
+                        account.addCategory(
+                                new Category(((EditText)findViewById(viewID)).getText().toString())
+                            );
+                        catDisplayIndexes.add(account.getCategories().size() - 1);
+                        Aloft.displayCategoryList(
+                                AccountActivity.this,
+                                (ListView) findViewById(R.id.account_categories),
+                                account,
+                                catDisplayIndexes
+                            );
+                        ((EditText)findViewById(viewID)).setText("");
                     }
                 }
+            }
+        );
 
-                if(editableViewsMissingValues.size() == 0) {
-                    startActivity(Aloft.getMainActivityIntent(
-                            getApplicationContext(),
-                            getAccountFromActivity()
-                        ));
+        findViewById(R.id.account_back).setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(Aloft.getMainActivityIntent(getApplicationContext(), null));
                     finish();
 
                     return;
                 }
             }
-        });
+        );
+
+        findViewById(R.id.account_next).setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    List<Integer> editableViewsMissingValues = new ArrayList<>();
+
+                    for(Integer i: editableViews){
+                        if(TextUtils.isEmpty(((EditText)findViewById(i)).getText().toString())){
+                            ((EditText)findViewById(i)).setError("A value is needed");
+                            editableViewsMissingValues.add(i);
+                        }
+                    }
+
+                    if(editableViewsMissingValues.size() == 0) {
+                        startActivity(
+                                Aloft.getMainActivityIntent(
+                                getApplicationContext(),
+                                getAccountFromActivity()
+                            ));
+                        finish();
+
+                        return;
+                    }
+                }
+            }
+        );
     }
 
     private Account getAccountFromActivity() {

@@ -62,21 +62,20 @@
     <ListView
         android:id="@+id/account_categories"
         android:layout_width="288dp"
-        android:layout_height="200dp"
+        android:layout_height="140dp"
         android:layout_marginTop="2dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/account_cash" />
 
     <ImageButton
         android:id="@+id/account_add"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="150dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/account_new_cat"
         app:layout_constraintTop_toBottomOf="@+id/account_categories"
         app:srcCompat="@drawable/add_to_list" />
 
@@ -84,11 +83,24 @@
         android:id="@+id/account_next"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="150dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_categories"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_new_cat"
         app:srcCompat="@drawable/next" />
+
+    <EditText
+        android:id="@+id/account_new_cat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="New Category Name"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_categories" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

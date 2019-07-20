@@ -34,22 +34,22 @@ public class MainActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.main_date)).setText(Aloft.getPrintableDate(weekStart));
 
-        // test
-        StringBuffer testText = new StringBuffer("Account Name : ");
-        testText.append(account.getName());
-        testText.append("\nIncludes Req Categories: ");
-        testText.append(account.getHasReqCategories(this));
-        for(Category category: account.getCategories()){
-            testText.append("\n");
-            testText.append(category.getName());
-            testText.append(": ");
-            for(BudgetItem budgetItem: category.getBudgetItems()){
-                testText.append(budgetItem.getValue());
-                testText.append("; ");
-            }
-        }
-        ((TextView)findViewById(R.id.main_date)).setText(testText.toString());
-        // end of test
+//        // test
+//        StringBuffer testText = new StringBuffer("Account Name : ");
+//        testText.append(account.getName());
+//        testText.append("\nIncludes Req Categories: ");
+//        testText.append(account.getHasReqCategories(this));
+//        for(Category category: account.getCategories()){
+//            testText.append("\n");
+//            testText.append(category.getName());
+//            testText.append(": ");
+//            for(BudgetItem budgetItem: category.getBudgetItems()){
+//                testText.append(budgetItem.getValue());
+//                testText.append("; ");
+//            }
+//        }
+//        ((TextView)findViewById(R.id.main_date)).setText(testText.toString());
+//        // end of test
     }
 
     @Override
