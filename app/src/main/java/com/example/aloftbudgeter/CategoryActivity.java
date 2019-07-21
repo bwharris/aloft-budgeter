@@ -82,8 +82,6 @@ public class CategoryActivity extends AppCompatActivity {
                 position != catDisplayIndexes.size()
             );
 
-
-
         findViewById(R.id.category_name).setVisibility(
                 position == catDisplayIndexes.size() ? View.VISIBLE : View.GONE
             );
@@ -113,9 +111,10 @@ public class CategoryActivity extends AppCompatActivity {
         ((Spinner)findViewById(R.id.category_once_month_selector)).setAdapter(onceMonthDataAdapter);
 
         ((Spinner)findViewById(R.id.category_once_day_selector)).setAdapter(dayDataAdapter);
-
-
     }
+
+    @Override
+    public void onBackPressed(){}
 
     public void onRadioButtonClick(View view){
         for(Integer i : frequencyView){

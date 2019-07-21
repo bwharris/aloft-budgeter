@@ -119,7 +119,7 @@ class Account implements Serializable {
         }
     }
 
-    int getPlannedExpenses(Context context, boolean isActual) {
+    int getExpenses(Context context, boolean isActual) {
         int plannedExpenses = 0;
 
         for(Category category: this.categories){

@@ -97,25 +97,26 @@ public class MainActivity extends AppCompatActivity {
                                 getApplicationContext().getString(R.string.req_income))
                             ).getBudgetItem(false),
                         0
-                    ) - account.getPlannedExpenses(getApplicationContext(), false)
+                    ) - account.getExpenses(getApplicationContext(), false)
             ));
         ((TextView)findViewById(R.id.main_changes_actual)).setText(String.valueOf(
                 Aloft.tryGetValue(account.getCategories().get(categoryIndexes.get(
                         getApplicationContext().getString(R.string.req_income))
                         ).getBudgetItem(true),
                         0
-                    ) - account.getPlannedExpenses(getApplicationContext(), true)
+                    ) - account.getExpenses(getApplicationContext(), true)
             ));
         account.updateContingency(
                 getApplicationContext(),
                 databaseHandler,
-                account.getPlannedExpenses(getApplicationContext(), false) / Aloft.contingencyPercent
+                account.getExpenses(getApplicationContext(), false) / Aloft.contingencyPercent
             );
         ((TextView)findViewById(R.id.main_contingency)).setText(String.valueOf(
                 account.getCategories().get(categoryIndexes.get(
                         getApplicationContext().getString(R.string.req_contingency)
                     )).getBudgetItemSum(false)
             ));
+
         int index = 0;
         for(Category category: account.getCategories()){
             if(!category.isExcludedFromMainListView(getApplicationContext())) {
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else{ index++; }
         }
+
         Aloft.displayCategoryList(
                 this, (ListView)findViewById(R.id.main_categories), account, catDisplayIndexes
             );

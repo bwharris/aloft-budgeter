@@ -50,5 +50,6 @@
     <string-array name="excludeFromMainListView">
         <item>@string/core_start_balance</item>
         <item>@string/core_end_balance</item>
+        <item>@string/req_contingency</item>
     </string-array>
 </resources>

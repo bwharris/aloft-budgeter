@@ -12,7 +12,7 @@ import java.util.List;
 
 class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "BUDGETER";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     private Context context;
 
     DatabaseHandler(Context context){
