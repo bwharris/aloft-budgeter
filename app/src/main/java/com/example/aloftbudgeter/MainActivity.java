@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    List<Account> accounts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +20,12 @@ public class MainActivity extends AppCompatActivity {
                 getIntent().getExtras(),
                 getApplicationContext().getString(R.string.extra_account),
                 Calendar.getInstance());
-
+        final DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
+        accounts = databaseHandler.getAccounts(weekStart);
         final Account account = Aloft.tryGetAccount(
                 getIntent().getExtras(),
                 getApplicationContext().getString(R.string.extra_account),
-                null
+                accounts.size() > 0 ? accounts.get(0) : null
             );
 
         if(account == null){

@@ -21,10 +21,6 @@ import java.util.List;
 
 class Aloft {
 
-    static ArrayAdapter<String> getDataAdapter(Activity activity, List<String> strings) {
-        return new ArrayAdapter<>(activity, android.R.layout.simple_spinner_item, strings);
-    }
-
     enum Frequency{
         once,
         weekly,
@@ -84,7 +80,7 @@ class Aloft {
         return intent;
     }
 
-    static HashMap<String, Integer> getCategoryIndexHashMap(ArrayList<Category> categories) {
+    static HashMap<String, Integer> getCategoryIndexHashMap(List<Category> categories) {
         HashMap<String, Integer> hashMap = new HashMap<>();
         int index = 0;
 
@@ -93,9 +89,86 @@ class Aloft {
         return hashMap;
     }
 
+    static StringBuffer getCreateAccountTableQuery(Context context) {
+        StringBuffer query = new StringBuffer("CREATE TABLE ");
+        query.append(context.getString(R.string.table_account));
+        query.append('(');
+        query.append(context.getString(R.string.table_account_id));
+        query.append(" INTEGER PRIMARY KEY, ");
+        query.append(context.getString(R.string.table_account_name));
+        query.append(" TEXT)");
+        return query;
+    }
+
+    static StringBuffer getCreateBudgetItemTableQuery(Context context) {
+        StringBuffer query = new StringBuffer("CREATE TABLE ");
+        query.append(context.getString(R.string.table_budget_item));
+        query.append('(');
+        query.append(context.getString(R.string.table_budget_item_id));
+        query.append(" INTEGER PRIMARY KEY, ");
+        query.append(context.getString(R.string.table_category_id));
+        query.append(" INTEGER, ");
+        query.append(context.getString(R.string.table_budget_item_date));
+        query.append(" INTEGER,");
+        query.append(context.getString(R.string.table_budget_item_value));
+        query.append(" INTEGER, ");
+        query.append(context.getString(R.string.table_budget_item_is_actual));
+        query.append(" INTEGER, CONSTRAINT fk_category FOREIGN KEY (");
+        query.append(context.getString(R.string.table_category_id));
+        query.append(") REFERENCES ");
+        query.append(context.getString(R.string.table_category));
+        query.append('(');
+        query.append(context.getString(R.string.table_category_id));
+        query.append("))");
+
+        return query;
+    }
+
+    static StringBuffer getCreateCategoryTableQuery(Context context) {
+        StringBuffer query = new StringBuffer("CREATE TABLE ");
+        query.append(context.getString(R.string.table_category));
+        query.append('(');
+        query.append(context.getString(R.string.table_category_id));
+        query.append(" INTEGER PRIMARY KEY, ");
+        query.append(context.getString(R.string.table_account_id));
+        query.append(" INTEGER, ");
+        query.append(context.getString(R.string.table_category_name));
+        query.append(" TEXT, ");
+        query.append("CONSTRAINT fk_account FOREIGN KEY (");
+        query.append(context.getString(R.string.table_account_id));
+        query.append(") REFERENCES ");
+        query.append(context.getString(R.string.table_account));
+        query.append('(');
+        query.append(context.getString(R.string.table_account_id));
+        query.append("))");
+
+        return query;
+    }
+
+    static StringBuffer getDropAccountTableQuery(Context context) {
+        StringBuffer query = new StringBuffer("DROP TABLE IF EXISTS ");
+        query.append(context.getString(R.string.table_account));
+
+        return  query;
+    }
+
+    static StringBuffer getDropBudgetItemTableQuery(Context context) {
+        StringBuffer query = new StringBuffer("DROP TABLE IF EXISTS ");
+        query.append(context.getString(R.string.table_budget_item));
+
+        return query;
+    }
+
+    static StringBuffer getDropCategoryTableQuery(Context context) {
+        StringBuffer query = new StringBuffer("DROP TABLE IF EXISTS ");
+        query.append(context.getString(R.string.table_category));
+
+        return query;
+    }
+
     static List<Integer> getIntegerSequence(int start, int numberOfIntegers, int step) {
         List<Integer> sequence = new ArrayList<>();
-        for(int i = 0; i < numberOfIntegers * step;){ sequence.add(i += step); }
+        for(int i = start - 1; i < numberOfIntegers * step;){ sequence.add(i += step); }
 
         return sequence;
     }
@@ -103,6 +176,13 @@ class Aloft {
     static Intent getMainActivityIntent(Context context, Account account) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(context.getString(R.string.extra_account), account);
+
+        return intent;
+    }
+
+    static Intent getMainActivityIntent(Context context, int accountID){
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(context.getString(R.string.extra_accountID), accountID);
 
         return intent;
     }

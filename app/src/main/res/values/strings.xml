@@ -2,6 +2,7 @@
     <string name="app_name">Aloft Budgeter</string>
     <string name="default_string">--</string>
     <string name="extra_account">account</string>
+    <string name="extra_accountID">@string/table_account_id</string>
     <string name="extra_needsReqCats">needsReqCats</string>
     <string name="extra_catDisplayIndexes">catDisplayIndexes</string>
     <string name="extra_position">position</string>
@@ -13,6 +14,18 @@
     <string name="req_spend_contingency">Spendable Contingency</string>
     <string name="pref">pref</string>
     <string name="pref_start_date">start_date</string>
+    <string name="name">name</string>
+    <string name="table_account">ACCOUNT</string>
+    <string name="table_account_id">account_id</string>
+    <string name="table_account_name">@string/name</string>
+    <string name="table_category">CATEGORY</string>
+    <string name="table_category_id">category_id</string>
+    <string name="table_category_name">@string/name</string>
+    <string name="table_budget_item">BUDGET_ITEM</string>
+    <string name="table_budget_item_id">budget_item_id</string>
+    <string name="table_budget_item_value">value</string>
+    <string name="table_budget_item_is_actual">is_actual</string>
+    <string name="table_budget_item_date">date</string>
     <string-array name="reqCategories">
         <item>@string/req_income</item>
         <item>@string/req_contingency</item>

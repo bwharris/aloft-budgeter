@@ -10,16 +10,35 @@ import java.util.List;
 class Category implements Serializable {
     private String name;
     private List<BudgetItem> budgetItems = new ArrayList<>();
+    private int categoryID;
+    private int accountID;
 
     Category(String name) {
         this.setName(name);
     }
 
-    String getName() { return name; }
+    public Category(int categoryID, int accountID, String name, List<BudgetItem> budgetItems) {
+        setCategoryID(categoryID);
+        setAccountID(accountID);
+        setName(name);
+        setBudgetItems(budgetItems);
+    }
 
     private void setName(String name) { this.name = name; }
 
-    List<BudgetItem> getBudgetItems() { return this.budgetItems; }
+    String getName() { return name; }
+
+    private void setCategoryID(int categoryID) { this.categoryID = categoryID; }
+
+    int getCategoryID() { return categoryID; }
+
+    private void setAccountID(int accountID) { this.accountID = accountID; }
+
+    int getAccountID() { return accountID; }
+
+    private void setBudgetItems(List<BudgetItem> budgetItems) { this.budgetItems = budgetItems; }
+
+    List<BudgetItem> getBudgetItems() { return budgetItems; }
 
     void addBudgetItem(BudgetItem budgetItem) { this.budgetItems.add(budgetItem); }
 

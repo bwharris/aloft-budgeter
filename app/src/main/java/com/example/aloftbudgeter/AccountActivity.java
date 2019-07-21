@@ -109,11 +109,11 @@ public class AccountActivity extends AppCompatActivity {
                     }
 
                     if(editableViewsMissingValues.size() == 0) {
-                        startActivity(
-                                Aloft.getMainActivityIntent(
-                                getApplicationContext(),
-                                getAccountFromActivity()
-                            ));
+                        DatabaseHandler databaseHandler =
+                                new DatabaseHandler(getApplicationContext());
+                        databaseHandler.create(getAccountFromActivity());
+
+                        startActivity(Aloft.getMainActivityIntent(getApplicationContext(),null));
                         finish();
 
                         return;

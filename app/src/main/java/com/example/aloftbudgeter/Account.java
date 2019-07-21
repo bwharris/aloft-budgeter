@@ -15,10 +15,18 @@ class Account implements Serializable {
 
     private Calendar weekStart = Calendar.getInstance();
     private String name;
-    private ArrayList<Category> categories = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
+    private int accountID;
 
     public Account(Calendar seedDate) {
         setWeekStart(seedDate);
+    }
+
+    public Account(int accountID, String name, Calendar weekStart, List<Category> categories) {
+        setAccountID(accountID);
+        setName(name);
+        setWeekStart(weekStart);
+        setCategories(categories);
     }
 
     private void setWeekStart(Calendar seedDate) { this.weekStart = Aloft.getStartOfWeek(seedDate); }
@@ -29,9 +37,13 @@ class Account implements Serializable {
 
     String getName() { return name; }
 
-    private void setCategories(ArrayList<Category> categories) { this.categories = categories; }
+    private void setCategories(List<Category> categories) { this.categories = categories; }
 
-    ArrayList<Category> getCategories() { return categories; }
+    List<Category> getCategories() { return categories; }
+
+    private void setAccountID(int accountID) { this.accountID = accountID; }
+
+    int getAccountID() { return accountID; }
 
     void addCategory(Category category) {
         this.categories.add(category);
