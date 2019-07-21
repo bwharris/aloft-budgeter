@@ -198,4 +198,36 @@ class DatabaseHandler extends SQLiteOpenHelper {
 
         return budgetItems;
     }
+
+    Account getAccountByID(int accountID, Calendar seedDate) {
+        Account account = null;
+        Calendar weekStart = Aloft.getStartOfWeek(seedDate);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                context.getString(R.string.table_account),
+                new String[] {
+                        context.getString(R.string.table_account_id),
+                        context.getString(R.string.table_account_name)
+                    },
+                context.getString(R.string.table_account_id) + "=?",
+                new String[] { String.valueOf(accountID) },
+                null, null, null
+            );
+
+        if(cursor == null){ return account; }
+
+        cursor.moveToFirst();
+
+        account = new Account(
+                Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1),
+                weekStart,
+                getCategoryByAccountID(Integer.parseInt(cursor.getString(0)), weekStart)
+            );
+
+        cursor.close();
+        db.close();
+
+        return account;
+    }
 }

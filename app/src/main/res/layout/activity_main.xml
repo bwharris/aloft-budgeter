@@ -215,4 +215,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_forecast_label"
         app:srcCompat="@drawable/save" />
+
+    <ImageButton
+        android:id="@+id/main_previous"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/main_date"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/previous_item" />
+
+    <ImageButton
+        android:id="@+id/main_next"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintStart_toEndOf="@+id/main_date"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/next_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

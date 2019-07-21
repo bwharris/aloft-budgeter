@@ -3,6 +3,8 @@ package com.example.aloftbudgeter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -35,26 +37,52 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        ((TextView)findViewById(R.id.main_date)).setText(Aloft.getPrintableDate(weekStart));
+        final Calendar lastWeek = (Calendar) account.getWeekStart().clone();
+        lastWeek.add(Calendar.DATE, -7);
 
-//        // test
-//        StringBuffer testText = new StringBuffer("Account Name : ");
-//        testText.append(account.getName());
-//        testText.append("\nIncludes Req Categories: ");
-//        testText.append(account.getHasReqCategories(this));
-//        for(Category category: account.getCategories()){
-//            testText.append("\n");
-//            testText.append(category.getName());
-//            testText.append(": ");
-//            for(BudgetItem budgetItem: category.getBudgetItems()){
-//                testText.append(Aloft.getPrintableDate(budgetItem.getWeekStart()));
-//                testText.append("| ");
-//                testText.append(budgetItem.getValue());
-//                testText.append("; ");
-//            }
-//        }
-//        ((TextView)findViewById(R.id.main_date)).setText(testText.toString());
-//        // end of test
+        findViewById(R.id.main_previous).setVisibility(
+                lastWeek.getTimeInMillis() >= Aloft.getStartDate(getApplicationContext())
+                        .getTimeInMillis() ? View.VISIBLE : View.GONE
+            );
+        findViewById(R.id.main_previous).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(Aloft.getMainActivityIntent(
+                                getApplicationContext(),
+                                databaseHandler.getAccountByID(account.getAccountID(), lastWeek)
+                            ));
+                        finish();
+
+                        return;
+                    }
+                }
+        );
+
+        final Calendar nextWeek = (Calendar)account.getWeekStart().clone();
+        nextWeek.add(Calendar.DATE, 7);
+
+        findViewById(R.id.main_next).setVisibility(
+                nextWeek.getTimeInMillis() <= Aloft.getStartDate(getApplicationContext())
+                        .getTimeInMillis() + (52 * Aloft.weekToMilliSec) ?
+                        View.VISIBLE : View.GONE
+            );
+        findViewById(R.id.main_next).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(Aloft.getMainActivityIntent(
+                                getApplicationContext(),
+                                databaseHandler.getAccountByID(account.getAccountID(), nextWeek)
+                            ));
+                        finish();
+
+                        return;
+                    }
+                }
+        );
+
+        ((TextView)findViewById(R.id.main_date)).setText(Aloft.getPrintableDate(weekStart));
     }
 
     @Override
