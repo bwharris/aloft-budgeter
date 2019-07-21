@@ -151,6 +151,9 @@ class Account implements Serializable {
                     0,
                     false
                 );
+            this.categories.get(
+                    categoryIndexes.get(context.getString(R.string.req_contingency))
+                ).addBudgetItem(contingencyItem);
         }
         this.categories.get(
                 categoryIndexes.get(context.getString(R.string.req_contingency))
