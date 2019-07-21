@@ -23,4 +23,18 @@
         <item>@string/core_cash</item>
         <item>@string/core_end_balance</item>
     </string-array>
+    <string-array name="excludeFromContingency">
+        <item>@string/core_start_balance</item>
+        <item>@string/core_end_balance</item>
+        <item>@string/req_income</item>
+        <item>@string/req_contingency</item>
+    </string-array>
+    <string-array name="excludeFromExpense">
+        <item>@string/core_start_balance</item>
+        <item>@string/core_end_balance</item>
+        <item>@string/req_income</item>
+    </string-array>
+    <string-array name="addToBalance">
+        <item>@string/req_income</item>
+    </string-array>
 </resources>

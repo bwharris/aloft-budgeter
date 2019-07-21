@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 //            testText.append(category.getName());
 //            testText.append(": ");
 //            for(BudgetItem budgetItem: category.getBudgetItems()){
+//                testText.append(Aloft.getPrintableDate(budgetItem.getWeekStart()));
+//                testText.append("| ");
 //                testText.append(budgetItem.getValue());
 //                testText.append("; ");
 //            }

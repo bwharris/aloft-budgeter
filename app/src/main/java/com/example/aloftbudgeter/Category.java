@@ -5,10 +5,11 @@ import android.app.Activity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 class Category implements Serializable {
     private String name;
-    private ArrayList<BudgetItem> budgetItems = new ArrayList<>();
+    private List<BudgetItem> budgetItems = new ArrayList<>();
 
     Category(String name) {
         this.setName(name);
@@ -18,7 +19,7 @@ class Category implements Serializable {
 
     private void setName(String name) { this.name = name; }
 
-    ArrayList<BudgetItem> getBudgetItems() { return this.budgetItems; }
+    List<BudgetItem> getBudgetItems() { return this.budgetItems; }
 
     void addBudgetItem(BudgetItem budgetItem) { this.budgetItems.add(budgetItem); }
 

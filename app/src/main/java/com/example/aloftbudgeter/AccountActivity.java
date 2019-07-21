@@ -53,8 +53,6 @@ public class AccountActivity extends AppCompatActivity {
             }
         }
 
-        int listViewID = R.id.account_categories;
-
         Aloft.displayCategoryList(
                 this,(ListView)findViewById(R.id.account_categories),account,catDisplayIndexes
             );
@@ -134,8 +132,11 @@ public class AccountActivity extends AppCompatActivity {
                     );
 
         for(Integer i: editableViews){
+            if(i.equals(R.id.account_start)) { continue; }
             account.updateFromView(this, findViewById(i), account.getWeekStart());
         }
+
+        account.updateFromView(this, findViewById(R.id.account_start), account.getWeekStart());
 
         return  account;
     }
