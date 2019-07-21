@@ -31,22 +31,20 @@
         android:id="@+id/main_start_bal_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Starting Balance: "
+        android:layout_marginTop="16dp"
+        android:text="Starting Balance"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/main_start_bal_center"
         app:layout_constraintTop_toBottomOf="@+id/main_date" />
 
     <TextView
         android:id="@+id/main_start_bal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/default_string"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/main_start_bal_label"
+        app:layout_constraintStart_toEndOf="@+id/main_start_bal_center"
         app:layout_constraintTop_toBottomOf="@+id/main_date" />
 
     <TextView
@@ -56,7 +54,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/default_string"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/main_changes_planned_label"
+        app:layout_constraintStart_toEndOf="@+id/main_changes_planned_center"
         app:layout_constraintTop_toBottomOf="@+id/main_start_bal_label" />
 
     <TextView
@@ -67,9 +65,7 @@
         android:text="Planned: "
         android:textSize="14sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/main_changes_planned_center"
         app:layout_constraintTop_toBottomOf="@+id/main_start_bal_label" />
 
     <TextView
@@ -80,10 +76,8 @@
         android:text="Actual: "
         android:textSize="14sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_changes_planned_label" />
+        app:layout_constraintEnd_toStartOf="@+id/main_changes_actual_center"
+        app:layout_constraintTop_toBottomOf="@+id/main_changes_label" />
 
     <TextView
         android:id="@+id/main_changes_actual"
@@ -92,15 +86,15 @@
         android:layout_marginTop="8dp"
         android:text="@string/default_string"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/main_changes_actual_label"
-        app:layout_constraintTop_toBottomOf="@+id/main_changes_planned_label" />
+        app:layout_constraintStart_toEndOf="@+id/main_changes_actual_center"
+        app:layout_constraintTop_toBottomOf="@+id/main_changes_label" />
 
     <TextView
         android:id="@+id/main_changes_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="4dp"
         android:text="Changes"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/main_changes_planned_label"
@@ -111,11 +105,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Contingency: "
+        android:text="@string/req_contingency"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/main_contingency_center"
         app:layout_constraintTop_toBottomOf="@+id/main_changes_actual_label" />
 
     <TextView
@@ -125,7 +117,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/default_string"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/main_contingency_label"
+        app:layout_constraintStart_toEndOf="@+id/main_contingency_center"
         app:layout_constraintTop_toBottomOf="@+id/main_changes_actual_label" />
 
     <TextView
@@ -237,4 +229,52 @@
         app:layout_constraintStart_toEndOf="@+id/main_date"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/next_item" />
+
+    <TextView
+        android:id="@+id/main_start_bal_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text=": "
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_date" />
+
+    <TextView
+        android:id="@+id/main_changes_planned_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text=": "
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_start_bal_label" />
+
+    <TextView
+        android:id="@+id/main_changes_actual_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text=": "
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_changes_label" />
+
+    <TextView
+        android:id="@+id/main_contingency_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text=": "
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_changes_actual_label" />
 </androidx.constraintlayout.widget.ConstraintLayout>

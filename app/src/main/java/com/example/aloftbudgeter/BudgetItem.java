@@ -8,7 +8,7 @@ class BudgetItem implements Serializable {
     private int value;
     private boolean isActual;
     private int budgetItemID;
-    private int catgoryID;
+    private int categoryID;
 
     BudgetItem(Calendar seedDate, int value, boolean isActual) {
         setWeekStart(seedDate);
@@ -16,9 +16,9 @@ class BudgetItem implements Serializable {
         setIsActual(isActual);
     }
 
-    public BudgetItem(int budgetItemID, int categoryID, Calendar seedDate, int value, boolean isActual) {
+    BudgetItem(int budgetItemID, int categoryID, Calendar seedDate, int value, boolean isActual) {
         setBudgetItemID(budgetItemID);
-        setCatgoryID(categoryID);
+        setCategoryID(categoryID);
         setWeekStart(seedDate);
         setValue(value);
         setIsActual(isActual);
@@ -36,11 +36,13 @@ class BudgetItem implements Serializable {
 
     boolean getIsActual() { return isActual; }
 
-    public void setBudgetItemID(int budgetItemID) { this.budgetItemID = budgetItemID; }
+    private void setBudgetItemID(int budgetItemID) { this.budgetItemID = budgetItemID; }
 
-    public int getBudgetItemID() { return budgetItemID; }
+    int getBudgetItemID() { return budgetItemID; }
 
-    public void setCatgoryID(int catgoryID) { this.catgoryID = catgoryID; }
+    private void setCategoryID(int categoryID) { this.categoryID = categoryID; }
 
-    public int getCatgoryID() { return catgoryID; }
+    int getCategoryID() { return categoryID; }
+
+    void updateValue(int value) { setValue(value); }
 }

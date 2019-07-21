@@ -4,14 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     List<Account> accounts;
+    List<Integer> catDisplayIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         final Calendar lastWeek = (Calendar) account.getWeekStart().clone();
         lastWeek.add(Calendar.DATE, -7);
-
         findViewById(R.id.main_previous).setVisibility(
                 lastWeek.getTimeInMillis() >= Aloft.getStartDate(getApplicationContext())
                         .getTimeInMillis() ? View.VISIBLE : View.GONE
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         final Calendar nextWeek = (Calendar)account.getWeekStart().clone();
         nextWeek.add(Calendar.DATE, 7);
-
         findViewById(R.id.main_next).setVisibility(
                 nextWeek.getTimeInMillis() <= Aloft.getStartDate(getApplicationContext())
                         .getTimeInMillis() + (52 * Aloft.weekToMilliSec) ?
@@ -82,7 +82,43 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        ((TextView)findViewById(R.id.main_date)).setText(Aloft.getPrintableDate(weekStart));
+        HashMap<String, Integer> categoryIndexes =
+                Aloft.getCategoryIndexHashMap(account.getCategories());
+        ((TextView)findViewById(R.id.main_date))
+                .setText(Aloft.getPrintableDate(weekStart));
+        ((TextView)findViewById(R.id.main_start_bal)).setText(String.valueOf(
+                account.getCategories().get(categoryIndexes.get(
+                        getApplicationContext().getString(R.string.core_start_balance)
+                    )).getBudgetItemSum(false)
+            ));
+        ((TextView)findViewById(R.id.main_changes_planned)).setText(String.valueOf(
+                Aloft.tryGetValue(account.getCategories().get(categoryIndexes.get(
+                                getApplicationContext().getString(R.string.req_income))
+                            ).getBudgetItem(false),
+                        0
+                    ) - account.getPlannedExpenses(getApplicationContext(), false)
+            ));
+        ((TextView)findViewById(R.id.main_changes_actual)).setText(String.valueOf(
+                Aloft.tryGetValue(account.getCategories().get(categoryIndexes.get(
+                        getApplicationContext().getString(R.string.req_income))
+                        ).getBudgetItem(true),
+                        0
+                    ) - account.getPlannedExpenses(getApplicationContext(), true)
+            ));
+        account.updateContingency(
+                getApplicationContext(),
+                databaseHandler,
+                account.getPlannedExpenses(getApplicationContext(), false) / Aloft.contingencyPercent
+            );
+        ((TextView)findViewById(R.id.main_contingency)).setText(String.valueOf(
+                account.getCategories().get(categoryIndexes.get(
+                        getApplicationContext().getString(R.string.req_contingency)
+                    )).getBudgetItemSum(false)
+            ));
+        int index = 0;
+//        for(Category category: account.getCategories()){
+//            if(category.isExcludedFromMainList()) { catDisplayIndexes.add(index++); }
+//        }
     }
 
     @Override

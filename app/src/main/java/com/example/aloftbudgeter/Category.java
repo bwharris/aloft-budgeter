@@ -1,6 +1,7 @@
 package com.example.aloftbudgeter;
 
 import android.app.Activity;
+import android.content.Context;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,5 +63,36 @@ class Category implements Serializable {
                 currentDate = nextDate.getTimeInMillis();
             }
         } while (currentDate < endDate);
+    }
+
+    BudgetItem getBudgetItem(boolean isActual) {
+        for(BudgetItem budgetItem: this.budgetItems){
+            if(budgetItem.getIsActual() == isActual) { return budgetItem; }
+        }
+
+        return null;
+    }
+
+    int getBudgetItemSum(boolean isActual) {
+        int sum = 0;
+        for(BudgetItem budgetItem: this.budgetItems){
+            sum += budgetItem.getIsActual() == isActual ? budgetItem.getValue() : 0;
+        }
+
+        return sum;
+    }
+
+    boolean isExcludedFromExpense(Context context) {
+        for(String name: context.getResources().getStringArray(R.array.excludeFromExpense)){
+            if(this.name.equals(name)){ return true; }
+        }
+
+        return false;
+    }
+
+    public void updateBudgetItem(int budgetItemID, int value) {
+        for(BudgetItem budgetItem: this.budgetItems){
+            if(budgetItem.getBudgetItemID() == budgetItemID) { budgetItem.updateValue(value); }
+        }
     }
 }

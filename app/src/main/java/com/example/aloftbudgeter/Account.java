@@ -88,15 +88,15 @@ class Account implements Serializable {
                             activity.getResources().getString(R.string.core_start_balance)
                         )).addBudgetItem(new BudgetItem(week, value, false));
 
-                    // reduce by spending cash
-                    value -= this.categories.get(categoryIndexes.get(
-                            activity.getResources().getString(R.string.core_cash)
-                        )).getBudgetItems().get(0).getValue();
-
-                    // add ending balance
-                    this.categories.get(categoryIndexes.get(
-                            activity.getResources().getString(R.string.core_end_balance)
-                        )).addBudgetItem(new BudgetItem(week, value,false));
+//                    // reduce by spending cash
+//                    value -= this.categories.get(categoryIndexes.get(
+//                            activity.getResources().getString(R.string.core_cash)
+//                        )).getBudgetItems().get(0).getValue();
+//
+//                    // add ending balance
+//                    this.categories.get(categoryIndexes.get(
+//                            activity.getResources().getString(R.string.core_end_balance)
+//                        )).addBudgetItem(new BudgetItem(week, value,false));
 
                     // update date
                     currentDate += Aloft.weekToMilliSec;
@@ -117,5 +117,44 @@ class Account implements Serializable {
             default:
                 break;
         }
+    }
+
+    int getPlannedExpenses(Context context, boolean isActual) {
+        int plannedExpenses = 0;
+
+        for(Category category: this.categories){
+            if(category.isExcludedFromExpense(context)){ }
+            else{ plannedExpenses += category.getBudgetItemSum(isActual); }
+        }
+
+        return plannedExpenses;
+    }
+
+    public void updateContingency(Context context, DatabaseHandler databaseHandler, int value) {
+        HashMap<String, Integer> categoryIndexes = Aloft.getCategoryIndexHashMap(this.categories);
+        BudgetItem contingencyItem = this.categories.get(
+                categoryIndexes.get(context.getString(R.string.req_contingency))
+            ).getBudgetItem(false);
+
+        if(contingencyItem == null){
+            contingencyItem = new BudgetItem(
+                    databaseHandler.create(
+                            new BudgetItem(this.weekStart, 0, false),
+                            this.categories.get(
+                                    categoryIndexes.get(context.getString(R.string.req_contingency))
+                                ).getCategoryID()
+                        ),
+                    this.categories.get(
+                            categoryIndexes.get(context.getString(R.string.req_contingency))
+                        ).getCategoryID(),
+                    this.weekStart,
+                    0,
+                    false
+                );
+        }
+        this.categories.get(
+                categoryIndexes.get(context.getString(R.string.req_contingency))
+            ).updateBudgetItem(contingencyItem.getBudgetItemID(), value);
+
     }
 }

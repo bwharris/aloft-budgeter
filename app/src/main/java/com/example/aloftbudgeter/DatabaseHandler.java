@@ -12,7 +12,7 @@ import java.util.List;
 
 class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "BUDGETER";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
     private Context context;
 
     DatabaseHandler(Context context){
@@ -32,6 +32,7 @@ class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(Aloft.getDropAccountTableQuery(context).toString());
         db.execSQL(Aloft.getDropCategoryTableQuery(context).toString());
         db.execSQL(Aloft.getDropBudgetItemTableQuery(context).toString());
+        onCreate(db);
     }
 
     int create(Account account) {
@@ -157,7 +158,7 @@ class DatabaseHandler extends SQLiteOpenHelper {
         selectionBuffer.append(context.getString(R.string.table_budget_item_date));
         selectionBuffer.append(" >= ? AND ");
         selectionBuffer.append(context.getString(R.string.table_budget_item_date));
-        selectionBuffer.append(" <= ?");
+        selectionBuffer.append(" < ?");
 
         Calendar startOfWeek = Aloft.getStartOfWeek(seedDate);
         Calendar endOfWeek = (Calendar)startOfWeek.clone();

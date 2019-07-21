@@ -22,6 +22,10 @@ import java.util.List;
 
 class Aloft {
 
+    static int tryGetValue(BudgetItem budgetItem, int defaultValue) {
+        return budgetItem == null ? 0 : budgetItem.getValue();
+    }
+
     enum Frequency{
         once,
         weekly,
@@ -29,6 +33,7 @@ class Aloft {
     }
 
     final static long weekToMilliSec = 604800000;
+    final static int contingencyPercent = 10;
 
     static void displayCategoryList(
             final Activity activity,
