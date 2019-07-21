@@ -52,7 +52,7 @@ class Account implements Serializable {
     List<String> getCategories(List<Integer> indexes) {
         List<String> categories = new ArrayList<>();
         for(Integer i: indexes){ categories.add(this.categories.get(i).getName()); }
-        categories.add("New");
+        //categories.add("New");
 
         return categories;
     }

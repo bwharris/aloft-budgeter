@@ -124,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             }
             else{ index++; }
         }
-
         Aloft.displayCategoryList(
                 this, (ListView)findViewById(R.id.main_categories), account, catDisplayIndexes
             );

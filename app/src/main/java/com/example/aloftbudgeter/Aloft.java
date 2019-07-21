@@ -1,6 +1,7 @@
 package com.example.aloftbudgeter;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -45,21 +46,53 @@ class Aloft {
         for(Integer i: catDisplayIndexes){ displayCategories.add(account.getCategories().get(i)); }
 
         listView.setAdapter(new CategoryListAdapter(activity, displayCategories));
+//        listView.setOnItemClickListener(
+//            new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                    activity.startActivity(getCategoryActivityIntent(
+//                            activity.getApplicationContext(),
+//                            account,
+//                            catDisplayIndexes,
+//                            i
+//                        ));
+//                    activity.finish();
+//                    return;
+//                }
+//            }
+//        );
         listView.setOnItemClickListener(
-            new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    activity.startActivity(getCategoryActivityIntent(
-                            activity.getApplicationContext(),
-                            account,
-                            catDisplayIndexes,
-                            i
-                        ));
-                    activity.finish();
-                    return;
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        activity.startActivity(getBudgetItemActivityIntent(
+                                activity.getApplicationContext(),
+                                account,
+                                catDisplayIndexes,
+                                i
+                            ));
+                        activity.finish();
+                        return;
+                    }
                 }
-            }
         );
+    }
+
+    static Intent getBudgetItemActivityIntent(
+            Context context,
+            Account account,
+            List<Integer> catDisplayIndexes,
+            int position
+    ) {
+        Intent intent = new Intent(context, BudgetItemActivity.class);
+        intent.putExtra(context.getString(R.string.extra_account), account);
+        intent.putIntegerArrayListExtra(context.getString(
+                R.string.extra_catDisplayIndexes),
+                (ArrayList<Integer>) catDisplayIndexes
+            );
+        intent.putExtra(context.getString(R.string.extra_position), position);
+
+        return intent;
     }
 
     static Intent getAccountActivityIntent(Context context, boolean needsReCats) {

@@ -52,4 +52,5 @@
         <item>@string/core_end_balance</item>
         <item>@string/req_contingency</item>
     </string-array>
+    <string name="title_activity_budget_item">BudgetItemActivity</string>
 </resources>

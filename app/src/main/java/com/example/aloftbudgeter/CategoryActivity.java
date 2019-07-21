@@ -113,9 +113,6 @@ public class CategoryActivity extends AppCompatActivity {
         ((Spinner)findViewById(R.id.category_once_day_selector)).setAdapter(dayDataAdapter);
     }
 
-    @Override
-    public void onBackPressed(){}
-
     public void onRadioButtonClick(View view){
         for(Integer i : frequencyView){
             findViewById(i).setVisibility(View.GONE);
