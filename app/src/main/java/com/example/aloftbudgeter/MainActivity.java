@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -116,9 +117,15 @@ public class MainActivity extends AppCompatActivity {
                     )).getBudgetItemSum(false)
             ));
         int index = 0;
-//        for(Category category: account.getCategories()){
-//            if(category.isExcludedFromMainList()) { catDisplayIndexes.add(index++); }
-//        }
+        for(Category category: account.getCategories()){
+            if(!category.isExcludedFromMainListView(getApplicationContext())) {
+                catDisplayIndexes.add(index++);
+            }
+            else{ index++; }
+        }
+        Aloft.displayCategoryList(
+                this, (ListView)findViewById(R.id.main_categories), account, catDisplayIndexes
+            );
     }
 
     @Override

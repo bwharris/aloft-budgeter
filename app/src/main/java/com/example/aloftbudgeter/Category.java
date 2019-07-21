@@ -95,4 +95,12 @@ class Category implements Serializable {
             if(budgetItem.getBudgetItemID() == budgetItemID) { budgetItem.updateValue(value); }
         }
     }
+
+    public boolean isExcludedFromMainListView(Context context) {
+        for(String name: context.getResources().getStringArray(R.array.excludeFromMainListView)){
+            if(this.name.equals(name)) { return true; }
+        }
+
+        return false;
+    }
 }
