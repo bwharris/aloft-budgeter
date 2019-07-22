@@ -171,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
                 + plannedIncome
                 - account.getExpenses(getApplicationContext(), false);
 
-
         ((TextView)findViewById(R.id.main_end_bal)).setText(String.valueOf(endingBalance));
         account.updateFromView(this, findViewById(R.id.main_end_bal));
     }
