@@ -164,7 +164,7 @@
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/main_category_name"
         app:layout_constraintTop_toBottomOf="@+id/main_categories"
-        app:srcCompat="@drawable/add_to_list" />
+        app:srcCompat="@drawable/add" />
 
     <TextView
         android:id="@+id/main_forecast_label"

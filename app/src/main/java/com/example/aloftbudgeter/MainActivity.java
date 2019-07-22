@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 this, (ListView)findViewById(R.id.main_categories), account, catDisplayIndexes
             );
 
-
+        //findViewById(R.id.main_add)
     }
 
     @Override
