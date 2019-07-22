@@ -18,8 +18,8 @@ public class AccountActivity extends AppCompatActivity {
             R.id.account_start,
             R.id.account_cash
         };
-    Account account = null;
-    List<Integer> catDisplayIndexes = new ArrayList<>();
+    private Account account = null;
+    private List<Integer> catDisplayIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

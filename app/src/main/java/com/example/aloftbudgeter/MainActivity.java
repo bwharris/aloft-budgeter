@@ -15,8 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    List<Account> accounts;
-    List<Integer> catDisplayIndexes = new ArrayList<>();
+    private Account account = null;
+    private List<Account> accounts;
+    private List<Integer> catDisplayIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 Calendar.getInstance());
         final DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
         accounts = databaseHandler.getAccounts(weekStart);
-        final Account account = Aloft.tryGetAccount(
+        account = Aloft.tryGetAccount(
                 getIntent().getExtras(),
                 getApplicationContext().getString(R.string.extra_account),
                 accounts.size() > 0 ? accounts.get(0) : null

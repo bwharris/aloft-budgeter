@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/budget_date" />
 
     <TextView
-        android:id="@+id/label_center"
+        android:id="@+id/budget_label_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -56,7 +56,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="88dp"
         android:text="PLAN"
-        app:layout_constraintEnd_toStartOf="@+id/label_center"
+        app:layout_constraintEnd_toStartOf="@+id/budget_label_center"
         app:layout_constraintTop_toBottomOf="@+id/budget_category" />
 
     <TextView
@@ -66,18 +66,18 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="24dp"
         android:text="ACTUAL"
-        app:layout_constraintStart_toEndOf="@+id/label_center"
+        app:layout_constraintStart_toEndOf="@+id/budget_label_center"
         app:layout_constraintTop_toBottomOf="@+id/budget_category" />
 
     <TextView
-        android:id="@+id/input_center"
+        android:id="@+id/budget_value_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text=" "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_center" />
+        app:layout_constraintTop_toBottomOf="@+id/budget_label_center" />
 
     <EditText
         android:id="@+id/budget_plan"
@@ -87,7 +87,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="numberSigned"
-        app:layout_constraintEnd_toStartOf="@+id/input_center"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/budget_value_center"
         app:layout_constraintTop_toBottomOf="@+id/budget_plan_label" />
 
     <EditText
@@ -98,17 +99,50 @@
         android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="numberSigned"
-        app:layout_constraintStart_toEndOf="@+id/input_center"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/budget_value_center"
         app:layout_constraintTop_toBottomOf="@+id/budget_actual_label" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/budget_diff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="80dp"
         android:text="@string/default_string"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_center" />
+        app:layout_constraintTop_toBottomOf="@+id/budget_value_center" />
+
+    <TextView
+        android:id="@+id/budget_button_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text=" "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/budget_diff" />
+
+    <ImageButton
+        android:id="@+id/budget_add"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/budget_button_center"
+        app:layout_constraintTop_toBottomOf="@+id/budget_diff"
+        app:srcCompat="@drawable/add_to_list" />
+
+    <ImageButton
+        android:id="@+id/budget_next"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintStart_toEndOf="@+id/budget_button_center"
+        app:layout_constraintTop_toBottomOf="@+id/budget_diff"
+        app:srcCompat="@drawable/next" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,10 +16,10 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity {
-    Account account = null;
-    List<Integer> catDisplayIndexes = null;
-    int position = -1;
-    final Integer[] frequencyView = new Integer[] {
+    private Account account = null;
+    private List<Integer> catDisplayIndexes = null;
+    private int position = -1;
+    private final Integer[] frequencyView = new Integer[] {
             R.id.category_once_month_selector,
             R.id.category_month_label,
             R.id.category_once_day_selector,
