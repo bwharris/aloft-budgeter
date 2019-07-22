@@ -46,36 +46,31 @@ class Aloft {
         for(Integer i: catDisplayIndexes){ displayCategories.add(account.getCategories().get(i)); }
 
         listView.setAdapter(new CategoryListAdapter(activity, displayCategories));
-//        listView.setOnItemClickListener(
-//            new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                    activity.startActivity(getCategoryActivityIntent(
-//                            activity.getApplicationContext(),
-//                            account,
-//                            catDisplayIndexes,
-//                            i
-//                        ));
-//                    activity.finish();
-//                    return;
-//                }
-//            }
-//        );
-        listView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        activity.startActivity(getBudgetItemActivityIntent(
-                                activity.getApplicationContext(),
-                                account,
-                                catDisplayIndexes,
-                                i
-                            ));
-                        activity.finish();
-                        return;
+
+        if(activity.getClass() == MainActivity.class){
+            listView.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView,View view,int i,long l) {
+                            activity.startActivity(getBudgetItemActivityIntent(
+                                    activity.getApplicationContext(),
+                                    account,
+                                    catDisplayIndexes,
+                                    i
+                                ));
+                            activity.finish();
+                            return;
+                        }
                     }
-                }
-        );
+                );
+        }
+    }
+
+    static Intent getAccountActivityIntent(Context context, boolean needsReCats) {
+        Intent intent = new Intent(context, AccountActivity.class);
+        intent.putExtra(context.getString(R.string.extra_needsReqCats), needsReCats);
+
+        return intent;
     }
 
     static Intent getBudgetItemActivityIntent(
@@ -89,15 +84,8 @@ class Aloft {
         intent.putIntegerArrayListExtra(context.getString(
                 R.string.extra_catDisplayIndexes),
                 (ArrayList<Integer>) catDisplayIndexes
-            );
+        );
         intent.putExtra(context.getString(R.string.extra_position), position);
-
-        return intent;
-    }
-
-    static Intent getAccountActivityIntent(Context context, boolean needsReCats) {
-        Intent intent = new Intent(context, AccountActivity.class);
-        intent.putExtra(context.getString(R.string.extra_needsReqCats), needsReCats);
 
         return intent;
     }

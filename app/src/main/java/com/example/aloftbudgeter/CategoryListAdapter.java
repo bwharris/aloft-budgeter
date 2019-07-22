@@ -31,12 +31,16 @@ class CategoryListAdapter extends ArrayAdapter<Category> {
 
         if(parent.getId() != R.id.main_categories){
             for(Integer i: mainActivityViews){ rowView.findViewById(i).setVisibility(View.GONE); }
+            rowView.findViewById(R.id.list_name).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         }
         else{
+            ((TextView)rowView.findViewById(R.id.list_name)).setText(
+                    ((TextView)rowView.findViewById(R.id.list_name)).getText().toString() + ":"
+                );
             ((TextView)rowView.findViewById(R.id.list_diff)).setText(String.valueOf(
                     listItems.get(position).getBudgetItemSum(false)
                             - listItems.get(position).getBudgetItemSum(true)
-            ));
+                ));
         }
 
         return rowView;

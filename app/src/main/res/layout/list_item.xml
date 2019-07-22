@@ -15,20 +15,20 @@
         android:layout_marginTop="8dp"
         android:gravity="bottom|center_horizontal"
         android:text="@string/default_string"
-        android:textAlignment="center"
+        android:textAlignment="textEnd"
         android:textSize="18dp"
-        app:layout_constraintStart_toEndOf="@+id/list_edit"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/list_diff"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="bottom|left"
         android:text="@string/default_string"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/list_name"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,9 +37,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/list_diff"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/edit" />
 </androidx.constraintlayout.widget.ConstraintLayout>

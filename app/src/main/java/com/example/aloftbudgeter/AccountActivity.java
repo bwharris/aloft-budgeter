@@ -61,7 +61,7 @@ public class AccountActivity extends AppCompatActivity {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int viewID = R.id.account_name;
+                    int viewID = R.id.account_new_cat;
                     if(TextUtils.isEmpty(((EditText)findViewById(viewID)).getText().toString())){
                         ((EditText)findViewById(viewID)).setError("A name is needed");
                     }

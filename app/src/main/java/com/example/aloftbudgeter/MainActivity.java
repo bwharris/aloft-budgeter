@@ -127,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
         Aloft.displayCategoryList(
                 this, (ListView)findViewById(R.id.main_categories), account, catDisplayIndexes
             );
+
+
     }
 
     @Override
