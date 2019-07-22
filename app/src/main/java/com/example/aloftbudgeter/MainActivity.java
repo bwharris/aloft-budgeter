@@ -3,7 +3,9 @@ package com.example.aloftbudgeter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -128,7 +130,40 @@ public class MainActivity extends AppCompatActivity {
                 this, (ListView)findViewById(R.id.main_categories), account, catDisplayIndexes
             );
 
-        //findViewById(R.id.main_add)
+        findViewById(R.id.main_add).setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int viewID = R.id.main_new_cat;
+
+                    if(TextUtils.isEmpty(((EditText)findViewById(viewID)).getText().toString())){
+                        ((EditText)findViewById(viewID)).setError("A name is needed");
+                    }
+                    else {
+                        account.addCategory(new Category(
+                                databaseHandler.create(
+                                        new Category(
+                                                ((EditText)findViewById(viewID)).getText().toString()
+                                            ),
+                                        account.getAccountID()
+                                    ),
+                                account.getAccountID(),
+                                ((EditText)findViewById(viewID)).getText().toString(),
+                                new ArrayList<BudgetItem>()
+                            ));
+                        catDisplayIndexes.add(account.getCategories().size() - 1);
+                        Aloft.displayCategoryList(
+                                MainActivity.this,
+                                (ListView)findViewById(R.id.main_categories),
+                                account,
+                                catDisplayIndexes
+                            );
+                        ((EditText)findViewById(viewID)).setText("");
+                    }
+                }
+            }
+        );
     }
 
     @Override
