@@ -94,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
         int startingBalance = account.getCategories().get(categoryIndexes.get(
                 getApplicationContext().getString(R.string.core_start_balance)
             )).getBudgetItemSum(false);
+        int contingency = account
+                .getExpenses(getApplicationContext(), false) / Aloft.contingencyPercent;
+
+        ((TextView)findViewById(R.id.main_contingency)).setText(String.valueOf(contingency));
+
+        account.updateFromView(this, findViewById(R.id.main_contingency));
+
         int plannedIncome = Aloft.tryGetValue(
                 account.getCategories()
                     .get(categoryIndexes.get(getApplicationContext().getString(R.string.req_income)))
@@ -114,12 +121,6 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.main_changes_actual)).setText(String.valueOf(
                 actualIncome - account.getExpenses(getApplicationContext(), true)
             ));
-
-        int contingency = account
-                .getExpenses(getApplicationContext(), false) / Aloft.contingencyPercent;
-
-        ((TextView)findViewById(R.id.main_contingency)).setText(String.valueOf(contingency));
-        account.updateFromView(this, findViewById(R.id.main_contingency));
 
         int index = 0;
         for(Category category: account.getCategories()){

@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,15 +59,26 @@ class Account implements Serializable {
         return categories;
     }
 
-    boolean getHasReqCategories(Activity activity) {
-        HashMap<String, Integer> categoryIndexHashMap =
-                Aloft.getCategoryIndexHashMap(this.categories);
-        for(String name: activity.getResources().getStringArray(R.array.reqCategories)) {
-            if(categoryIndexHashMap.get(name) == null) { return false; }
+    int getExpenses(Context context, boolean isActual) {
+        int plannedExpenses = 0;
+
+        for(Category category: this.categories){
+            if(category.isExcludedFromExpense(context)){ }
+            else{ plannedExpenses += category.getBudgetItemSum(isActual); }
         }
 
-        return true;
+        return plannedExpenses;
     }
+
+//    boolean getHasReqCategories(Activity activity) {
+//        HashMap<String, Integer> categoryIndexHashMap =
+//                Aloft.getCategoryIndexHashMap(this.categories);
+//        for(String name: activity.getResources().getStringArray(R.array.reqCategories)) {
+//            if(categoryIndexHashMap.get(name) == null) { return false; }
+//        }
+//
+//        return true;
+//    }
 
     void updateFromView(Activity activity, View view){
         DatabaseHandler databaseHandler = null;
@@ -75,12 +88,12 @@ class Account implements Serializable {
         switch (view.getId()){
             case R.id.account_name:
                 setName(((EditText)view).getText().toString());
+
                 break;
 
             case R.id.account_start:
                 value = Aloft.tryParseInteger((EditText)view, 0);
                 categoryIndexes = Aloft.getCategoryIndexHashMap(this.categories);
-
                 this.categories.get(categoryIndexes.get(
                         activity.getResources().getString(R.string.core_start_balance)
                     )).addBudgetItem(new BudgetItem(this.weekStart, value, false));
@@ -98,6 +111,7 @@ class Account implements Serializable {
                             Aloft.tryParseInteger((EditText)view, 0),
                             Aloft.Frequency.weekly
                         );
+
                 break;
 
             case R.id.main_contingency:
@@ -158,9 +172,6 @@ class Account implements Serializable {
                                 .get(categoryIndexes.get(activity.getApplicationContext()
                                     .getString(R.string.core_start_balance)
                             )).getBudgetItem(false);
-//                    budgetItem = this.categories.get(categoryIndexes.get(
-//                            activity.getApplicationContext().getString(R.string.core_start_balance)
-//                        )).getBudgetItem(false);
 
                     if(budgetItem == null){
                         databaseHandler.create(
@@ -170,24 +181,33 @@ class Account implements Serializable {
                                 )).getCategoryID()
                         );
                     }
-
                     else{ databaseHandler.update(budgetItem.getBudgetItemID(), value); }
                 }
+
                 break;
 
-            default:
+            case R.id.budget_actual:
+            case R.id.budget_plan:
+                databaseHandler = new DatabaseHandler(activity);
+                categoryIndexes = Aloft.getCategoryIndexHashMap(this.categories);
+                value = Aloft.tryParseInteger((TextView)view, 0);
+                for(
+                    BudgetItem item: this.categories.get(categoryIndexes.get(
+                            ((TextView)activity.findViewById(R.id.budget_category)).getText().toString()
+                        )).getBudgetItems(view.getId() == R.id.budget_actual)
+                ){
+                    databaseHandler.removeBudgetItem(item.getBudgetItemID());
+                }
+
+                databaseHandler.create(
+                        new BudgetItem(this.weekStart, value, view.getId() == R.id.budget_actual),
+                        this.categories.get(categoryIndexes.get(
+                                ((TextView)activity.findViewById(R.id.budget_category)).getText().toString()
+                            )).getCategoryID()
+                    );
                 break;
+
+            default: break;
         }
-    }
-
-    int getExpenses(Context context, boolean isActual) {
-        int plannedExpenses = 0;
-
-        for(Category category: this.categories){
-            if(category.isExcludedFromExpense(context)){ }
-            else{ plannedExpenses += category.getBudgetItemSum(isActual); }
-        }
-
-        return plannedExpenses;
     }
 }

@@ -2,6 +2,7 @@ package com.example.aloftbudgeter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.ListView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -90,17 +91,37 @@ class Category implements Serializable {
         return false;
     }
 
-    public void updateBudgetItem(int budgetItemID, int value) {
-        for(BudgetItem budgetItem: this.budgetItems){
-            if(budgetItem.getBudgetItemID() == budgetItemID) { budgetItem.updateValue(value); }
-        }
-    }
-
-    public boolean isExcludedFromMainListView(Context context) {
+    boolean isExcludedFromMainListView(Context context) {
         for(String name: context.getResources().getStringArray(R.array.excludeFromMainListView)){
             if(this.name.equals(name)) { return true; }
         }
 
         return false;
+    }
+
+    void removeBudgetItems(boolean isActual) {
+        List<BudgetItem> budgetItems = new ArrayList<>();
+
+        for (BudgetItem budgetItem: this.budgetItems) {
+            if(budgetItem.getIsActual() == isActual) { budgetItems.add(budgetItem); }
+        }
+
+        setBudgetItems(budgetItems);
+    }
+
+    void updateBudgetItem(int budgetItemID, int value) {
+        for(BudgetItem budgetItem: this.budgetItems){
+            if(budgetItem.getBudgetItemID() == budgetItemID) { budgetItem.updateValue(value); }
+        }
+    }
+
+    List<BudgetItem> getBudgetItems(boolean isActual) {
+        List<BudgetItem> budgetItems = new ArrayList<>();
+
+        for(BudgetItem budgetItem: this.budgetItems) {
+            if(budgetItem.getIsActual() == isActual) { budgetItems.add(budgetItem); }
+        }
+
+        return budgetItems;
     }
 }

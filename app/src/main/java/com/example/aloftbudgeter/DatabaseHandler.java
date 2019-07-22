@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.strictmode.SqliteObjectLeakedViolation;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,7 +13,7 @@ import java.util.List;
 
 class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "BUDGETER";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     private Context context;
 
     DatabaseHandler(Context context){
@@ -101,7 +102,7 @@ class DatabaseHandler extends SQLiteOpenHelper {
                         context.getString(R.string.table_account_id),
                         context.getString(R.string.table_account_name)
                 },
-                context.getString(R.string.table_account_id) + "=?",
+                context.getString(R.string.table_account_id) + " = ?",
                 new String[] { String.valueOf(accountID) },
                 null, null, null
         );
@@ -211,7 +212,7 @@ class DatabaseHandler extends SQLiteOpenHelper {
                         context.getString(R.string.table_account_id),
                         context.getString(R.string.table_category_name)
                     },
-                context.getString(R.string.table_account_id) + "=?",
+                context.getString(R.string.table_account_id) + " = ?",
                 new String[]{ String.valueOf(accountID) },
                 null, null, null, null
             );
@@ -232,9 +233,22 @@ class DatabaseHandler extends SQLiteOpenHelper {
         return categories;
     }
 
+    void removeBudgetItem(int budgetItemID) {
+        StringBuffer whereBuffer =
+                new StringBuffer(context.getString(R.string.table_budget_item_id));
+        whereBuffer.append(" = ?");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(
+                context.getString(R.string.table_budget_item),
+                whereBuffer.toString(),
+                new String[] { String.valueOf(budgetItemID) }
+            );
+    }
+
     void update(int budgetItemID, int value) {
         StringBuffer whereBuffer = new StringBuffer(context.getString(R.string.table_budget_item_id));
-        whereBuffer.append("=?");
+        whereBuffer.append(" = ?");
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -246,7 +260,6 @@ class DatabaseHandler extends SQLiteOpenHelper {
                 whereBuffer.toString(),
                 new String[]{ String.valueOf(budgetItemID) }
             );
-
         db.close();
     }
 }
