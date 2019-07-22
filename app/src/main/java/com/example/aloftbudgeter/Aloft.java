@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -300,5 +301,10 @@ class Aloft {
     static int tryParseInteger(EditText editText, int defaultValue) {
         try{ return Integer.parseInt(editText.getText().toString()); }
         catch (NumberFormatException e){ return defaultValue; }
+    }
+
+    static int tryParseInteger(TextView textView, int defaultValue){
+        try{ return Integer.parseInt(textView.getText().toString()); }
+        catch (NumberFormatException e) { return defaultValue; }
     }
 }

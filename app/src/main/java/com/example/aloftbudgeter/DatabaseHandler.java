@@ -12,7 +12,7 @@ import java.util.List;
 
 class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "BUDGETER";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
     private Context context;
 
     DatabaseHandler(Context context){
@@ -52,6 +52,27 @@ class DatabaseHandler extends SQLiteOpenHelper {
         return accountID;
     }
 
+    int create(BudgetItem budgetItem, int categoryID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(context.getString(R.string.table_category_id), categoryID);
+        values.put(
+                context.getString(R.string.table_budget_item_date),
+                budgetItem.getWeekStart().getTimeInMillis()
+        );
+        values.put(context.getString(R.string.table_budget_item_value), budgetItem.getValue());
+        values.put(context.getString(R.string.table_budget_item_is_actual), budgetItem.getIsActual());
+
+        int budgetItemID = (int)(long)db.insert(
+                context.getString(R.string.table_budget_item),
+                null,
+                values
+        );
+        db.close();
+
+        return budgetItemID;
+    }
+
     int create(Category category, int accountID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -70,25 +91,36 @@ class DatabaseHandler extends SQLiteOpenHelper {
         return categoryID;
     }
 
-    int create(BudgetItem budgetItem, int categoryID){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(context.getString(R.string.table_category_id), categoryID);
-        values.put(
-                context.getString(R.string.table_budget_item_date),
-                budgetItem.getWeekStart().getTimeInMillis()
-            );
-        values.put(context.getString(R.string.table_budget_item_value), budgetItem.getValue());
-        values.put(context.getString(R.string.table_budget_item_is_actual), budgetItem.getIsActual());
+    Account getAccountByID(int accountID, Calendar seedDate) {
+        Account account = null;
+        Calendar weekStart = Aloft.getStartOfWeek(seedDate);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                context.getString(R.string.table_account),
+                new String[] {
+                        context.getString(R.string.table_account_id),
+                        context.getString(R.string.table_account_name)
+                },
+                context.getString(R.string.table_account_id) + "=?",
+                new String[] { String.valueOf(accountID) },
+                null, null, null
+        );
 
-        int budgetItemID = (int)(long)db.insert(
-                context.getString(R.string.table_budget_item),
-                null,
-                values
-            );
+        if(cursor == null){ return account; }
+
+        cursor.moveToFirst();
+
+        account = new Account(
+                Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1),
+                weekStart,
+                getCategoryByAccountID(Integer.parseInt(cursor.getString(0)), weekStart)
+        );
+
+        cursor.close();
         db.close();
 
-        return budgetItemID;
+        return account;
     }
 
     List<Account> getAccounts(Calendar weekStart) {
@@ -117,6 +149,56 @@ class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
 
         return accounts;
+    }
+
+    List<BudgetItem> getBudgetItemsByCategoryID(int categoryID, Calendar seedDate) {
+        List<BudgetItem> budgetItems= new ArrayList<>();
+        StringBuffer selectionBuffer = new StringBuffer();
+        selectionBuffer.append(context.getString(R.string.table_category_id));
+        selectionBuffer.append(" = ? AND ");
+        selectionBuffer.append(context.getString(R.string.table_budget_item_date));
+        selectionBuffer.append(" >= ? AND ");
+        selectionBuffer.append(context.getString(R.string.table_budget_item_date));
+        selectionBuffer.append(" < ?");
+
+        Calendar startOfWeek = Aloft.getStartOfWeek(seedDate);
+        Calendar endOfWeek = (Calendar)startOfWeek.clone();
+        endOfWeek.add(Calendar.DATE, 7);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                context.getString(R.string.table_budget_item),
+                new String[]{
+                        context.getString(R.string.table_budget_item_id),
+                        context.getString(R.string.table_category_id),
+                        context.getString(R.string.table_budget_item_date),
+                        context.getString(R.string.table_budget_item_value),
+                        context.getString(R.string.table_budget_item_is_actual)
+                },
+                selectionBuffer.toString(),
+                new String[]{
+                        String.valueOf(categoryID),
+                        String.valueOf(startOfWeek.getTimeInMillis()),
+                        String.valueOf(endOfWeek.getTimeInMillis())
+                },
+                null, null, null, null
+        );
+
+        if(cursor.moveToFirst()){
+            do{ budgetItems.add(new BudgetItem(
+                    Integer.parseInt(cursor.getString(0)),
+                    Integer.parseInt(cursor.getString(1)),
+                    startOfWeek,
+                    Integer.parseInt(cursor.getString(3)),
+                    Integer.parseInt(cursor.getString(4)) == 1
+            ));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return budgetItems;
     }
 
     List<Category> getCategoryByAccountID(int accountID, Calendar seedDate) {
@@ -150,85 +232,21 @@ class DatabaseHandler extends SQLiteOpenHelper {
         return categories;
     }
 
-    List<BudgetItem> getBudgetItemsByCategoryID(int categoryID, Calendar seedDate) {
-        List<BudgetItem> budgetItems= new ArrayList<>();
-        StringBuffer selectionBuffer = new StringBuffer();
-        selectionBuffer.append(context.getString(R.string.table_category_id));
-        selectionBuffer.append(" = ? AND ");
-        selectionBuffer.append(context.getString(R.string.table_budget_item_date));
-        selectionBuffer.append(" >= ? AND ");
-        selectionBuffer.append(context.getString(R.string.table_budget_item_date));
-        selectionBuffer.append(" < ?");
+    void update(int budgetItemID, int value) {
+        StringBuffer whereBuffer = new StringBuffer(context.getString(R.string.table_budget_item_id));
+        whereBuffer.append("=?");
 
-        Calendar startOfWeek = Aloft.getStartOfWeek(seedDate);
-        Calendar endOfWeek = (Calendar)startOfWeek.clone();
-        endOfWeek.add(Calendar.DATE, 7);
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(context.getString(R.string.table_budget_item_value), value);
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(
+        db.update(
                 context.getString(R.string.table_budget_item),
-                new String[]{
-                        context.getString(R.string.table_budget_item_id),
-                        context.getString(R.string.table_category_id),
-                        context.getString(R.string.table_budget_item_date),
-                        context.getString(R.string.table_budget_item_value),
-                        context.getString(R.string.table_budget_item_is_actual)
-                    },
-                selectionBuffer.toString(),
-                new String[]{
-                        String.valueOf(categoryID),
-                        String.valueOf(startOfWeek.getTimeInMillis()),
-                        String.valueOf(endOfWeek.getTimeInMillis())
-                    },
-                null, null, null, null
+                values,
+                whereBuffer.toString(),
+                new String[]{ String.valueOf(budgetItemID) }
             );
 
-        if(cursor.moveToFirst()){
-            do{ budgetItems.add(new BudgetItem(
-                        Integer.parseInt(cursor.getString(0)),
-                        Integer.parseInt(cursor.getString(1)),
-                        startOfWeek,
-                        Integer.parseInt(cursor.getString(3)),
-                        Integer.parseInt(cursor.getString(4)) == 1
-                    ));
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
         db.close();
-
-        return budgetItems;
-    }
-
-    Account getAccountByID(int accountID, Calendar seedDate) {
-        Account account = null;
-        Calendar weekStart = Aloft.getStartOfWeek(seedDate);
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(
-                context.getString(R.string.table_account),
-                new String[] {
-                        context.getString(R.string.table_account_id),
-                        context.getString(R.string.table_account_name)
-                    },
-                context.getString(R.string.table_account_id) + "=?",
-                new String[] { String.valueOf(accountID) },
-                null, null, null
-            );
-
-        if(cursor == null){ return account; }
-
-        cursor.moveToFirst();
-
-        account = new Account(
-                Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1),
-                weekStart,
-                getCategoryByAccountID(Integer.parseInt(cursor.getString(0)), weekStart)
-            );
-
-        cursor.close();
-        db.close();
-
-        return account;
     }
 }

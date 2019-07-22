@@ -89,35 +89,36 @@ public class MainActivity extends AppCompatActivity {
                 Aloft.getCategoryIndexHashMap(account.getCategories());
         ((TextView)findViewById(R.id.main_date))
                 .setText(Aloft.getPrintableDate(weekStart));
-        ((TextView)findViewById(R.id.main_start_bal)).setText(String.valueOf(
-                account.getCategories().get(categoryIndexes.get(
-                        getApplicationContext().getString(R.string.core_start_balance)
-                    )).getBudgetItemSum(false)
-            ));
+
+        int startingBalance = account.getCategories().get(categoryIndexes.get(
+                getApplicationContext().getString(R.string.core_start_balance)
+            )).getBudgetItemSum(false);
+        int plannedIncome = Aloft.tryGetValue(
+                account.getCategories()
+                    .get(categoryIndexes.get(getApplicationContext().getString(R.string.req_income)))
+                    .getBudgetItem(false),
+                0
+            );
+        int actualIncome = Aloft.tryGetValue(
+                account.getCategories()
+                        .get(categoryIndexes.get(getApplicationContext().getString(R.string.req_income)))
+                        .getBudgetItem(true),
+                0
+            );
+
+        ((TextView)findViewById(R.id.main_start_bal)).setText(String.valueOf(startingBalance));
         ((TextView)findViewById(R.id.main_changes_planned)).setText(String.valueOf(
-                Aloft.tryGetValue(account.getCategories().get(categoryIndexes.get(
-                                getApplicationContext().getString(R.string.req_income))
-                            ).getBudgetItem(false),
-                        0
-                    ) - account.getExpenses(getApplicationContext(), false)
+                plannedIncome - account.getExpenses(getApplicationContext(), false)
             ));
         ((TextView)findViewById(R.id.main_changes_actual)).setText(String.valueOf(
-                Aloft.tryGetValue(account.getCategories().get(categoryIndexes.get(
-                        getApplicationContext().getString(R.string.req_income))
-                        ).getBudgetItem(true),
-                        0
-                    ) - account.getExpenses(getApplicationContext(), true)
+                actualIncome - account.getExpenses(getApplicationContext(), true)
             ));
-        account.updateContingency(
-                getApplicationContext(),
-                databaseHandler,
-                account.getExpenses(getApplicationContext(), false) / Aloft.contingencyPercent
-            );
-        ((TextView)findViewById(R.id.main_contingency)).setText(String.valueOf(
-                account.getCategories().get(categoryIndexes.get(
-                        getApplicationContext().getString(R.string.req_contingency)
-                    )).getBudgetItemSum(false)
-            ));
+
+        int contingency = account
+                .getExpenses(getApplicationContext(), false) / Aloft.contingencyPercent;
+
+        ((TextView)findViewById(R.id.main_contingency)).setText(String.valueOf(contingency));
+        account.updateFromView(this, findViewById(R.id.main_contingency));
 
         int index = 0;
         for(Category category: account.getCategories()){
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else{ index++; }
         }
+
         Aloft.displayCategoryList(
                 this, (ListView)findViewById(R.id.main_categories), account, catDisplayIndexes
             );
@@ -164,6 +166,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         );
+
+        int endingBalance = startingBalance
+                + plannedIncome
+                - account.getExpenses(getApplicationContext(), false);
+
+
+        ((TextView)findViewById(R.id.main_end_bal)).setText(String.valueOf(endingBalance));
+        account.updateFromView(this, findViewById(R.id.main_end_bal));
     }
 
     @Override
