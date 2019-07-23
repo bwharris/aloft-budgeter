@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.strictmode.SqliteObjectLeakedViolation;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,7 +12,7 @@ import java.util.List;
 
 class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "BUDGETER";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 9;
     private Context context;
 
     DatabaseHandler(Context context){

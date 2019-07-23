@@ -128,9 +128,11 @@ public class CategoryActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.category_value)).setError("A value is needed");
                     }
                     else{
-                        //account.updateFromView(CategoryActivity.this, findViewById(R.id.category_value));
+                        account.updateFromView(CategoryActivity.this, findViewById(R.id.category_value));
+                        startActivity(Aloft.getMainActivityIntent(getApplicationContext(), null));
+                        finish();
 
-
+                        return;
                     }
 
                 }

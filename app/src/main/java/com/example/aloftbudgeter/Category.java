@@ -2,7 +2,6 @@ package com.example.aloftbudgeter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.widget.ListView;
 
 import java.io.Serializable;
 import java.util.ArrayList;

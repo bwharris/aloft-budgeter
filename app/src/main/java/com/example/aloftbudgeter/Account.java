@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -101,16 +102,39 @@ class Account implements Serializable {
                 break;
 
             case R.id.account_cash:
+                categoryIndexes = Aloft.getCategoryIndexHashMap(this.categories);
                 this.categories.get(
-                        Aloft.getCategoryIndexHashMap(this.categories).get(
-                                activity.getResources().getString(R.string.core_cash)
-                            )
+                        categoryIndexes.get(activity.getResources().getString(R.string.core_cash))
                     ).addBudgetItems(
                             activity,
                             this.weekStart,
                             Aloft.tryParseInteger((EditText)view, 0),
                             Aloft.Frequency.weekly
                         );
+
+                break;
+
+            case R.id.category_value:
+                databaseHandler = new DatabaseHandler(activity);
+                categoryIndexes = Aloft.getCategoryIndexHashMap(this.categories);
+                value = ((RadioGroup)activity.findViewById(R.id.category_freq))
+                        .getCheckedRadioButtonId();
+                Category category = this.categories.get(categoryIndexes.get(
+                        ((TextView)activity.findViewById(R.id.category_name)).getText().toString()
+                    ));
+                category.removeBudgetItems(false);
+                category.removeBudgetItems(true);
+                category.addBudgetItems(
+                        activity,
+                        this.weekStart,
+                        Aloft.tryParseInteger((EditText)view, 0),
+                        value == R.id.category_once ? Aloft.Frequency.once
+                                : value == R.id.category_monthly ? Aloft.Frequency.monthly
+                                : Aloft.Frequency.weekly
+                    );
+                for(BudgetItem item: category.getBudgetItems()){
+                    databaseHandler.create(item, category.getCategoryID());
+                }
 
                 break;
 
