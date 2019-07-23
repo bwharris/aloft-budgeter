@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+        findViewById(R.id.main_save).setVisibility(View.GONE);
     }
 
     @Override
