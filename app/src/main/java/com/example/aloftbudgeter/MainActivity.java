@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -175,6 +177,54 @@ public class MainActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.main_end_bal)).setText(String.valueOf(endingBalance));
         account.updateFromView(this, findViewById(R.id.main_end_bal));
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        menu.clear();
+
+        for(Account userAccount: accounts){
+            menu.add(Menu.NONE, userAccount.getAccountID(), Menu.NONE, userAccount.getName())
+                .setShowAsAction(
+                        account.getAccountID() == userAccount.getAccountID() ?
+                                MenuItem.SHOW_AS_ACTION_ALWAYS
+                                : MenuItem.SHOW_AS_ACTION_NEVER
+                    );
+        }
+
+        menu.add(Menu.NONE, -1, Menu.NONE, "Add An Account").setShowAsAction(
+                accounts.size() == 0 ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_NEVER
+            );
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case -1:
+                startActivity(Aloft.getAccountActivityIntent(getApplicationContext(), true));
+                finish();
+
+                return false;
+
+            default:
+                if(item.getItemId() == account.getAccountID()) { return false;}
+
+                for(Account userAccount: accounts){
+                    if(userAccount.getAccountID() == item.getItemId()){
+                        account = userAccount;
+                        break;
+                    }
+                }
+
+                if(account == null){ return false; }
+
+                startActivity(Aloft.getMainActivityIntent(getApplicationContext(), account));
+                finish();
+
+                return false;
+        }
     }
 
     @Override

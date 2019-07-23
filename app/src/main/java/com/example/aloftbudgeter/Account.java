@@ -53,13 +53,6 @@ class Account implements Serializable {
         this.categories.add(category);
     }
 
-    List<String> getCategories(List<Integer> indexes) {
-        List<String> categories = new ArrayList<>();
-        for(Integer i: indexes){ categories.add(this.categories.get(i).getName()); }
-
-        return categories;
-    }
-
     int getExpenses(Context context, boolean isActual) {
         int plannedExpenses = 0;
 
@@ -70,16 +63,6 @@ class Account implements Serializable {
 
         return plannedExpenses;
     }
-
-//    boolean getHasReqCategories(Activity activity) {
-//        HashMap<String, Integer> categoryIndexHashMap =
-//                Aloft.getCategoryIndexHashMap(this.categories);
-//        for(String name: activity.getResources().getStringArray(R.array.reqCategories)) {
-//            if(categoryIndexHashMap.get(name) == null) { return false; }
-//        }
-//
-//        return true;
-//    }
 
     void updateFromView(Activity activity, View view){
         DatabaseHandler databaseHandler = null;

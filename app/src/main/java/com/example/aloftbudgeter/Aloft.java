@@ -67,9 +67,9 @@ class Aloft {
         }
     }
 
-    static Intent getAccountActivityIntent(Context context, boolean needsReCats) {
+    static Intent getAccountActivityIntent(Context context, boolean needsReqCats) {
         Intent intent = new Intent(context, AccountActivity.class);
-        intent.putExtra(context.getString(R.string.extra_needsReqCats), needsReCats);
+        intent.putExtra(context.getString(R.string.extra_needsReqCats), needsReqCats);
 
         return intent;
     }
