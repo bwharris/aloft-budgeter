@@ -71,6 +71,20 @@ public class BudgetItemActivity extends AppCompatActivity {
         ((EditText)findViewById(R.id.budget_plan)).setText(String.valueOf(plan));
         ((EditText)findViewById(R.id.budget_actual)).setText(String.valueOf(actual));
         ((TextView)findViewById(R.id.budget_diff)).setText(String.valueOf(diff));
+        findViewById(R.id.budget_add).setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(Aloft.getCategoryActivityIntent(
+                            getApplicationContext(),
+                            account,
+                            catDisplayIndexes,
+                            position
+                        ));
+                }
+            }
+        );
+
         findViewById(R.id.budget_next).setOnClickListener(
             new View.OnClickListener() {
                 @Override
