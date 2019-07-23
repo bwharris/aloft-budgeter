@@ -3,15 +3,21 @@ package com.example.aloftbudgeter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -71,33 +77,8 @@ public class CategoryActivity extends AppCompatActivity {
                 }
             }
         );
-
-        ArrayAdapter<String> categoryDataAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                account.getCategories(catDisplayIndexes)
-            );
-        categoryDataAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        ((Spinner)findViewById(R.id.category_selector)).setAdapter(categoryDataAdapter);
-        ((Spinner)findViewById(R.id.category_selector)).setSelection(position);
-        ((Spinner)findViewById(R.id.category_selector)).setOnItemSelectedListener(
-            new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    findViewById(R.id.category_name).setVisibility(
-                            i == catDisplayIndexes.size() ? View.VISIBLE : View.GONE
-                    );
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) { }
-        });
-        findViewById(R.id.category_selector).setEnabled(
-                position != catDisplayIndexes.size()
-            );
-
-        findViewById(R.id.category_name).setVisibility(
-                position == catDisplayIndexes.size() ? View.VISIBLE : View.GONE
+        ((TextView)findViewById(R.id.category_name)).setText(
+                account.getCategories().get(catDisplayIndexes.get(position)).getName()
             );
 
         ArrayAdapter<Integer> weekDataAdapter = new ArrayAdapter<>(
@@ -106,6 +87,7 @@ public class CategoryActivity extends AppCompatActivity {
                 Aloft.getIntegerSequence(1,10,1)
             );
         weekDataAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+
         ((Spinner)findViewById(R.id.category_week_selector)).setAdapter(weekDataAdapter);
 
         ArrayAdapter<Integer> dayDataAdapter = new ArrayAdapter<>(
@@ -114,7 +96,10 @@ public class CategoryActivity extends AppCompatActivity {
                 Aloft.getIntegerSequence(1, 31, 1)
             );
         weekDataAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+
         ((Spinner)findViewById(R.id.category_monthly_day_selector)).setAdapter(dayDataAdapter);
+        ((Spinner)findViewById(R.id.category_monthly_day_selector))
+                .setSelection((Calendar.getInstance().get(Calendar.DATE)) - 1);
 
         ArrayAdapter<Integer> onceMonthDataAdapter = new ArrayAdapter<>(
                 this,
@@ -122,10 +107,39 @@ public class CategoryActivity extends AppCompatActivity {
                 Aloft.getIntegerSequence(1,12, 1)
             );
         onceMonthDataAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        Calendar currentDate = Calendar.getInstance();
+
         ((Spinner)findViewById(R.id.category_once_month_selector)).setAdapter(onceMonthDataAdapter);
+        ((Spinner)findViewById(R.id.category_once_month_selector))
+                .setSelection(currentDate.get(Calendar.MONTH));
 
         ((Spinner)findViewById(R.id.category_once_day_selector)).setAdapter(dayDataAdapter);
+        ((Spinner)findViewById(R.id.category_once_day_selector))
+                .setSelection((currentDate.get(Calendar.DATE)) - 1);
+
+        findViewById(R.id.category_next).setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(
+                        TextUtils.isEmpty(((EditText)findViewById(R.id.category_value))
+                            .getText().toString())
+                    ){
+                        ((EditText) findViewById(R.id.category_value)).setError("A value is needed");
+                    }
+                    else{
+                        //account.updateFromView(CategoryActivity.this, findViewById(R.id.category_value));
+
+
+                    }
+
+                }
+            }
+        );
     }
+
+    @Override
+    public void onBackPressed(){}
 
     public void onRadioButtonClick(View view){
         for(Integer i : frequencyView){
