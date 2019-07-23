@@ -226,12 +226,31 @@ class Aloft {
         Intent intent = context.getPackageManager()
                 .getLaunchIntentForPackage(context.getString(R.string.app_reconciler));
         if(intent != null) {
-            intent.putExtra(context.getString(R.string.extra_accountID), account);
-            return intent; 
+            List<String> categoryNames = new ArrayList<>();
+            List<Integer> planValues = new ArrayList<>();
+            List<Integer> actualValues = new ArrayList<>();
+            for (Category category : account.getCategories()) {
+                categoryNames.add(category.getName());
+                planValues.add(category.getBudgetItemSum(false));
+                planValues.add(category.getBudgetItemSum(true));
+            }
+
+            intent.putExtra(
+                    context.getString(R.string.req_income), context.getString(R.string.req_income)
+                );
+            intent.putStringArrayListExtra(
+                    context.getString(R.string.table_category),
+                    (ArrayList<String>) categoryNames
+                );
+            intent.putIntegerArrayListExtra("plan",(ArrayList<Integer>)planValues);
+            intent.putIntegerArrayListExtra("actual", (ArrayList<Integer>)actualValues);
+
+            return intent;
         }
 
         return getMainActivityIntent(context, account);
     }
+
 
     static Calendar getStartDate(Context context) {
         SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.pref),0);

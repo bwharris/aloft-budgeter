@@ -172,7 +172,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_end_bal_label"
-        app:srcCompat="@drawable/save" />
+        app:srcCompat="@drawable/save"
+        tools:visibility="gone" />
 
     <ImageButton
         android:id="@+id/main_previous"
