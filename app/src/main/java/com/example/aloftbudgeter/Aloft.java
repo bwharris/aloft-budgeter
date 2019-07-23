@@ -24,10 +24,6 @@ import java.util.List;
 
 class Aloft {
 
-    static int tryGetValue(BudgetItem budgetItem, int defaultValue) {
-        return budgetItem == null ? 0 : budgetItem.getValue();
-    }
-
     enum Frequency{
         once,
         weekly,
@@ -226,6 +222,17 @@ class Aloft {
         return  dateString;
     }
 
+    public static Intent getReconcilerActivity(Context context, Account account) {
+        Intent intent = context.getPackageManager()
+                .getLaunchIntentForPackage(context.getString(R.string.app_reconciler));
+        if(intent != null) {
+            intent.putExtra(context.getString(R.string.extra_accountID), account);
+            return intent; 
+        }
+
+        return getMainActivityIntent(context, account);
+    }
+
     static Calendar getStartDate(Context context) {
         SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.pref),0);
         Calendar calendar = Calendar.getInstance();
@@ -290,6 +297,10 @@ class Aloft {
 
     static int tryGetPosition(Bundle extras, String name, int defaultPosition) {
         return hasPosition(extras, name) ? (int)extras.get(name) : defaultPosition;
+    }
+
+    static int tryGetValue(BudgetItem budgetItem, int defaultValue) {
+        return budgetItem == null ? defaultValue : budgetItem.getValue();
     }
 
     static Calendar tryGetWeekStart(Bundle extras, String name, Calendar defaultSeedDate) {

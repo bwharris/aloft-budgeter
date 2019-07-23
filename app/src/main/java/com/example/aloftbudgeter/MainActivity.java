@@ -177,6 +177,15 @@ public class MainActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.main_end_bal)).setText(String.valueOf(endingBalance));
         account.updateFromView(this, findViewById(R.id.main_end_bal));
+
+        findViewById(R.id.main_save).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(Aloft.getReconcilerActivity(getApplicationContext(), account));
+                    }
+                }
+        );
     }
 
     @Override

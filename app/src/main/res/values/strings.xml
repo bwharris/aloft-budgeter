@@ -26,6 +26,7 @@
     <string name="table_budget_item_value">value</string>
     <string name="table_budget_item_is_actual">is_actual</string>
     <string name="table_budget_item_date">date</string>
+    <string name="app_reconciler">com.example.aloftreconciler</string>
     <string-array name="reqCategories">
         <item>@string/req_income</item>
         <item>@string/req_contingency</item>
