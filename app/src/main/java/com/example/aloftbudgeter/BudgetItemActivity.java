@@ -45,15 +45,15 @@ public class BudgetItemActivity extends AppCompatActivity {
         }
 
         findViewById(R.id.budget_back).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(Aloft.getMainActivityIntent(getApplicationContext(), null));
-                        finish();
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(Aloft.getMainActivityIntent(getApplicationContext(), null));
+                    finish();
 
-                        return;
-                    }
+                    return;
                 }
+            }
         );
 
         int plan = account.getCategories()

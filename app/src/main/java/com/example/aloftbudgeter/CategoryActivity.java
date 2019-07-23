@@ -51,12 +51,26 @@ public class CategoryActivity extends AppCompatActivity {
                 catDisplayIndexes.size()
             );
 
-        if(account == null || catDisplayIndexes == null) {
+        if(account == null || catDisplayIndexes == null || position == -1) {
             Aloft.saveStartDate(this);
-            startActivity(Aloft.getAccountActivityIntent(getApplicationContext(), true));
+            startActivity(Aloft.getMainActivityIntent(getApplicationContext(), null));
             finish();
             return;
         }
+
+        findViewById(R.id.category_back).setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(Aloft.getBudgetItemActivityIntent(
+                            getApplicationContext(),
+                            account,
+                            catDisplayIndexes,
+                            position
+                        ));
+                }
+            }
+        );
 
         ArrayAdapter<String> categoryDataAdapter = new ArrayAdapter<>(
                 this,
